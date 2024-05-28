@@ -1,24 +1,40 @@
-import logo from './logo.svg';
-import './App.css';
+import React, { useState } from "react";
+import { createTheme, ThemeProvider } from "@mui/material/styles";
+import { Provider } from "react-redux";
+import { PersistGate } from "redux-persist/integration/react";
+import { ToastContainer } from "react-toastify";
+import Navbar from "./components/NavBar";
+import AppRouter from "./router/AppRouter";
+import store, { persistor } from "./app/store";
+import Footer from "./components/Footer";
 
 function App() {
+  const [prefersDarkMode, setPrefersDarkMode] = useState(true);
+
+  const theme = React.useMemo(
+    () =>
+      createTheme({
+        palette: {
+          mode: prefersDarkMode ? "dark" : "light",
+        },
+      }),
+    [prefersDarkMode]
+  );
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <ThemeProvider theme={theme}>
+      <Provider store={store}>
+        <PersistGate loading={null} persistor={persistor}>
+          <Navbar
+            setPrefersDarkMode={setPrefersDarkMode}
+            prefersDarkMode={prefersDarkMode}
+          />
+          <AppRouter  />
+          <Footer prefersDarkMode={prefersDarkMode} />
+          <ToastContainer />
+        </PersistGate>
+      </Provider>
+    </ThemeProvider>
   );
 }
 
