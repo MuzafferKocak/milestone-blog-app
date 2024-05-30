@@ -7,11 +7,11 @@ import Grid from "@mui/material/Grid";
 import LockOutlinedIcon from "@mui/icons-material/LockOutlined";
 import Typography from "@mui/material/Typography";
 import { createTheme, ThemeProvider } from "@mui/material/styles";
-import LoginForm, { loginScheme } from "../components/auth/LoginForm";
+import LoginForm from "../components/auth/LoginForm";
 import { Formik } from "formik";
 import useAuthCalls from "../hooks/useAuthCalls";
 // import {  red, orange } from '@mui/material/colors';
-
+import { loginScheme } from "../validation/login";
 const theme = createTheme();
 // const theme = createTheme({
 //     palette: {
@@ -24,7 +24,12 @@ const theme = createTheme();
 
 const Login = () => {
   const { login } = useAuthCalls();
-
+  const handleSubmit = (values,actions) => {
+    console.log('onsubmit');  
+    login(values);
+    // actions.resetForm();
+    // actions.setSubmitting(false);
+  }
   return (
     <ThemeProvider theme={theme}>
       <Grid
@@ -57,15 +62,14 @@ const Login = () => {
               Sign in
             </Typography>
             <Formik
-              initialValues={{ email: "", password: "" }}
+              initialValues={{ username: "", password: "" }}
               validationSchema={loginScheme}
               onSubmit={(values, actions) => {
-                login(values);
-                actions.resetForm();
-                actions.setSubmitting(false);
+                handleSubmit(values,actions);
               }}
-              component={(props) => <LoginForm {...props} />}
-            ></Formik>
+            >
+              {(props) => <LoginForm {...props} handleSubmit={handleSubmit} />}
+            </Formik>
           </Box>
         </Grid>
       </Grid>

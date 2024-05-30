@@ -6,10 +6,10 @@ import Grid from "@mui/material/Grid";
 import LockOutlinedIcon from "@mui/icons-material/LockOutlined";
 import Typography from "@mui/material/Typography";
 import { createTheme, ThemeProvider } from "@mui/material/styles";
-import RegisterForm, { registerScheme } from "../components/auth/RegisterForm";
+import RegisterForm from "../components/auth/RegisterForm";
 import { Formik } from "formik";
 import useAuthCalls from "../hooks/useAuthCalls";
-
+import {registerScheme} from "../validation/register";
 const theme = createTheme();
 
 const Register = () => {
@@ -63,16 +63,18 @@ const Register = () => {
             <Formik
               initialValues={{
                 username: "",
-                first_name: "",
-                last_name: "",
+                firstName: "",
+                lastName: "",
                 email: "",
                 password: "",
                 image: "",
                 bio: "",
+                city : 'istanbul'
                 
               }}
               validationSchema={registerScheme}
               onSubmit={(values, actions) => {
+                console.log('values',values);
                 register(values);
                 actions.resetForm();
                 actions.setSubmitting(false);
