@@ -19,7 +19,10 @@ export const registerScheme = object({
     .matches(/[a-z]/, "Password bir küçük harf içermelidir")
     .matches(/[A-Z]/, "Password bir büyük harf içermelidir")
     .matches(/[!,?{}><%&$#£+-.]+/, "Password bir özel karakter içermelidir"),
-  
+  firstName: string().required("First Name is required"),
+  lastName: string().required("Last Name is required"),
+  username: string().required("Username is required"),
+  bio: string().required("Bio is required"),
     })
   
 const RegisterForm = ({
@@ -42,7 +45,6 @@ const RegisterForm = ({
           id="userName"
           type="text"
           variant="outlined"
-          required
           fullWidth
           value={values.username}
           onChange={handleChange}
@@ -57,7 +59,6 @@ const RegisterForm = ({
           id="firstName"
           type="text"
           variant="outlined"
-          required
           fullWidth
           value={values.firstName}
           onChange={handleChange}
@@ -69,10 +70,9 @@ const RegisterForm = ({
         margin="normal"
           label="Last Name"
           name="lastName"
-          id="lastName"
+          id="last_name"
           type="text"
           variant="outlined"
-          required
           fullWidth
           value={values.lastName}
           onChange={handleChange}
@@ -87,7 +87,6 @@ const RegisterForm = ({
           id="email"
           type="email"
           variant="outlined"
-          required
           fullWidth
           value={values.email}
           onChange={handleChange}
@@ -102,7 +101,6 @@ const RegisterForm = ({
           id="password"
           type="password"
           variant="outlined"
-          required
           fullWidth
           value={values.password}
           onChange={handleChange}
@@ -113,7 +111,6 @@ const RegisterForm = ({
 
         <TextField
           margin="normal"
-          // required
           fullWidth
           id="image"
           label="Image"
@@ -127,7 +124,6 @@ const RegisterForm = ({
         />
         <TextField
           margin="normal"
-          // required
           fullWidth
           name="bio"
           label="Bio"
