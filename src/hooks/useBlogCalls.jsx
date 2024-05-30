@@ -31,7 +31,7 @@ const useBlogCalls = () => {
       const { data } = await axiosToken.post(`/${path}/${id}/`);
       
       
-      dispatch(getSuccess({ data, path }));
+      dispatch(getSuccess({ data: data.data, path }));
     } catch (error) {
       toastErrorNotify("Operations failed, check your internet connection");
       dispatch(fetchFail());
@@ -51,10 +51,12 @@ const useBlogCalls = () => {
   const getNewBlogCreate = async (path, newBlogInfo) => {
     dispatch(fetchStart());
     try {
+        
       await axiosToken.post(`/${path}/`, newBlogInfo);
       
       toastSuccessNotify("Blog Posted Successfully 👌");
     } catch (error) {
+        console.error("Server Error:", error);
       toastErrorNotify("Blog post failed please try again 🤨");
       dispatch(fetchFail());
     }
@@ -65,7 +67,7 @@ const useBlogCalls = () => {
       const urlPath = path === "blogs" ? "blogsDetail" : path;
       
       const { data } = await axiosToken.get(`/${path}/${id}/`);
-      
+    //   console.log("Fetched Data:", data.data);
       dispatch(getSuccess({data: data.data, path: urlPath }));
     } catch (error) {
       dispatch(fetchFail());
@@ -75,7 +77,8 @@ const useBlogCalls = () => {
     dispatch(fetchStart());
     try {
       const { data } = await axiosToken.post(`/${path}/${id}/`, comment);
-      dispatch(getSuccess({ data, path }));
+      console.log("Fetched Data:", data.data, comment);
+      dispatch(getSuccess({ data: data.data, path }));
       
       toastSuccessNotify("Your comment has been sent successfully 👌");
     } catch (error) {

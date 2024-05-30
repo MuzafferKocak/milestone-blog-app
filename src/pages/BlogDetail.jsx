@@ -7,41 +7,41 @@ import {
     Paper,
     TextField,
     Typography,
-  } from "@mui/material"
-  import React, { useEffect, useState } from "react"
-  import { useSelector } from "react-redux"
-  import { useParams } from "react-router-dom"
-  import useBlogCalls from "../hooks/useBlogCalls"
-  import RemoveRedEyeIcon from "@mui/icons-material/RemoveRedEye"
-  import FavoriteIcon from "@mui/icons-material/Favorite"
-  import ShareIcon from "@mui/icons-material/Share"
-  import ForumIcon from "@mui/icons-material/Forum"
-  import SendIcon from "@mui/icons-material/Send"
-  import MoreVertIcon from "@mui/icons-material/MoreVert"
-  import Menu from "@mui/material/Menu"
-  import MenuItem from "@mui/material/MenuItem"
-  import UpdateModal from "../components/blog/UpdateModal"
-  import DeleteModal from "../components/blog/DeleteModal"
+  } from "@mui/material";
+  import React, { useEffect, useState } from "react";
+  import { useSelector } from "react-redux";
+  import { useParams } from "react-router-dom";
+  import useBlogCalls from "../hooks/useBlogCalls";
+  import RemoveRedEyeIcon from "@mui/icons-material/RemoveRedEye";
+  import FavoriteIcon from "@mui/icons-material/Favorite";
+  import ShareIcon from "@mui/icons-material/Share";
+  import ForumIcon from "@mui/icons-material/Forum";
+  import SendIcon from "@mui/icons-material/Send";
+  import MoreVertIcon from "@mui/icons-material/MoreVert";
+  import Menu from "@mui/material/Menu";
+  import MenuItem from "@mui/material/MenuItem";
+  import UpdateModal from "../components/blog/UpdateModal";
+  import DeleteModal from "../components/blog/DeleteModal";
   
   const BlogDetail = () => {
-    const {blogsDetail} = useSelector((state) => state.blog)
-    const currentUser = useSelector((state) => state.auth.currentUser)
-    const { getDetailRead, getLikeCreate, getPostData, getCreateComment } =
-      useBlogCalls()
-    const [handleComment, setHandleComment] = useState({ post: "", content: "" })
+    const { blogsDetail } = useSelector((state) => state.blog);
+    const currentUser = useSelector((state) => state.auth.currentUser);
+    const { getDetailRead, getLikeCreate, getPostData, getCreateComment } = useBlogCalls();
+    const [handleComment, setHandleComment] = useState({ post: "", content: "" });
   
-    const [openUpdate, setOpenUpdate] = React.useState(false)
-    const [openDelete, setOpenDelete] = React.useState(false)
+    const [openUpdate, setOpenUpdate] = useState(false);
+    const [openDelete, setOpenDelete] = useState(false);
   
-    const { id } = useParams()
-    const blogLikes = useSelector((state) => state.blog.blog)
-    const userId = useSelector((state) => state.auth.currentUser)
-    const likedPost = []
+    const { id } = useParams();
+    const blogLikes = useSelector((state) => state.blog.blog);
+    const userId = useSelector((state) => state.auth.currentUser);
+    const likedPost = [];
   
     const formatDate = (dateString) => {
-        console.log("Original Date String:", dateString); 
-      const date = new Date(dateString)
-      console.log("Parsed Date:", date); 
+      const date = new Date(dateString);
+      if (isNaN(date.getTime())) {
+        return "Invalid Date";
+      }
       const options = {
         year: "numeric",
         month: "long",
@@ -51,64 +51,60 @@ import {
         second: "numeric",
         hour12: false,
         timeZone: "UTC",
-      }
-      return date.toLocaleString("de-DE", options)
-    }
-    /* eslint-disable */
-    blogLikes?.map((item) => {
-      const userLikes = item.likes_n
-      return userLikes?.map((i) => {
-        if (userId?.id === i.user_id) {
-          likedPost.push(i.post_id)
-        }
-      })
-    })
+      };
+      return date.toLocaleString("de-DE", options);
+    };
   
-    const [anchorEl, setAnchorEl] = useState(null)
+    blogLikes?.forEach((item) => {
+      const userLikes = item.likes_n;
+      userLikes?.forEach((i) => {
+        if (userId?.id === i.user_id) {
+          likedPost.push(i.post_id);
+        }
+      });
+    });
+  
+    const [anchorEl, setAnchorEl] = useState(null);
   
     const handleMenuClick = (event) => {
-      setAnchorEl(event.currentTarget)
-    }
+      setAnchorEl(event.currentTarget);
+    };
   
     const handleMenuClose = () => {
-      setAnchorEl(null)
-    }
+      setAnchorEl(null);
+    };
   
-    const handleOpenUpdate = () => setOpenUpdate(true)
-    const handleCloseUpdate = () => setOpenUpdate(false)
+    const handleOpenUpdate = () => setOpenUpdate(true);
+    const handleCloseUpdate = () => setOpenUpdate(false);
   
-    const handleOpenDelete = () => setOpenDelete(true)
-    const handleCloseDelete = () => setOpenDelete(false)
+    const handleOpenDelete = () => setOpenDelete(true);
+    const handleCloseDelete = () => setOpenDelete(false);
+  
+    
   
     useEffect(() => {
-      getDetailRead("blogs", id)
-      console.log("idesi:", id)
-
-      getPostData("blogs")
-      
-    }, []) // eslint-disable-line
-
-    useEffect(() => {
-        console.log('blogsDetail:', blogsDetail);  // API'den dönen veriyi kontrol et
-      }, [blogsDetail]);
+        getDetailRead("blogs", id);
+        getPostData("blogs");
+    }, []); // eslint-disable-line
   
     const handleLikeButton = () => {
-      getLikeCreate("likes", id)
+      getLikeCreate("likes", id);
       setTimeout(() => {
         getDetailRead("blogs", id)
         getPostData("blogs")
-      }, 10)
-    }
+        
+      }, 10);
+    };
+  
     const sendComment = (comment) => {
-      console.log(id)
-      getCreateComment("comments", id, comment)
+      getCreateComment("comments", id, comment);
       setTimeout(() => {
-        getDetailRead("blogs", id)
-      }, 100)
-    }
+        getDetailRead("blogs", id);
+      }, 100);
+    };
   
     return (
-      <Box sx={{ maxWidth: "600px", margin: "0 auto", padding: "2rem" }}>
+      <Box sx={{ maxWidth: "750px", margin: "0 auto", padding: "2rem", marginBottom: "5rem" }}>
         <Paper elevation={4} sx={{ padding: "1rem 2rem" }}>
           <CardHeader
             sx={{
@@ -121,8 +117,8 @@ import {
             }}
             title={<Typography variant="h4">{blogsDetail?.title}</Typography>}
             action={
-              blogsDetail?.author === currentUser?.username && (
-                <React.Fragment>
+              blogsDetail?.userId?.username === currentUser?.username && (
+                <>
                   <IconButton onClick={handleMenuClick} aria-label="settings">
                     <MoreVertIcon />
                   </IconButton>
@@ -133,16 +129,16 @@ import {
                   >
                     <MenuItem
                       onClick={() => {
-                        handleMenuClose()
-                        handleOpenUpdate()
+                        handleMenuClose();
+                        handleOpenUpdate();
                       }}
                     >
                       Update Blog
                     </MenuItem>
                     <MenuItem
                       onClick={() => {
-                        handleMenuClose()
-                        handleOpenDelete()
+                        handleMenuClose();
+                        handleOpenDelete();
                       }}
                     >
                       Delete Blog
@@ -163,18 +159,16 @@ import {
                       id={id}
                     />
                   )}
-                </React.Fragment>
+                </>
               )
             }
           />
-          <Box
-            sx={{ display: "flex", alignItems: "center", marginBottom: "1rem" }}
-          >
+          <Box sx={{ display: "flex", alignItems: "center", marginBottom: "1rem" }}>
             <Avatar />
             <Box sx={{ marginLeft: "1rem" }}>
-              <Typography variant="subtitle1">{blogsDetail?.author}</Typography>
+              <Typography variant="subtitle1">{blogsDetail?.userId?.username}</Typography>
               <Typography variant="subtitle2">
-                {formatDate(blogsDetail?.publish_date)}
+                {formatDate(blogsDetail?.createdAt)}
               </Typography>
             </Box>
           </Box>
@@ -185,28 +179,21 @@ import {
               alt="blog_image"
             />
           </Box>
-          <div
-            dangerouslySetInnerHTML={{ __html: blogsDetail?.content }}
-          ></div>
-          
+          <div dangerouslySetInnerHTML={{ __html: blogsDetail?.content }}></div>
+  
           <Box sx={{ display: "flex", justifyContent: "space-between" }}>
             <Box>
               <CardActions disableSpacing>
-                <IconButton
-                  onClick={handleLikeButton}
-                  aria-label="add to favorites"
-                >
+                <IconButton onClick={handleLikeButton} aria-label="add to favorites">
                   <FavoriteIcon
-                    sx={{
-                      color: likedPost.includes(+id) ? "red" : "white",
-                    }}
+                    sx={{ color: likedPost.includes(blogsDetail?._id) ? "red" : "white" }}
                   />
                 </IconButton>
-                <Typography>{blogsDetail?.likes}</Typography>
+                <Typography>{blogsDetail?.likes?.length}</Typography>
                 <IconButton aria-label="add to favorites">
                   <ForumIcon sx={{ color: "#ffa000" }} />
                 </IconButton>
-                <Typography>{blogsDetail?.comment_count}</Typography>
+                <Typography>{blogsDetail?.comments?.length}</Typography>
               </CardActions>
             </Box>
             <Box>
@@ -214,7 +201,7 @@ import {
                 <IconButton aria-label="add to favorites">
                   <RemoveRedEyeIcon sx={{ color: "#07aaea" }} />
                 </IconButton>
-                <Typography>{blogsDetail?.post_views}</Typography>
+                <Typography>{blogsDetail?.countOfVisitors}</Typography>
                 <IconButton aria-label="share">
                   <ShareIcon />
                 </IconButton>
@@ -223,11 +210,12 @@ import {
           </Box>
           <hr style={{ width: "30rem" }} />
           <Box sx={{ marginTop: "2rem" }}>
-            {blogsDetail?.comment_count === 0 ? (
+            {blogsDetail?.comments?.length === 0 ? (
               <Typography>Be the first to comment...</Typography>
             ) : (
               blogsDetail?.comments?.map((item) => (
-                <Box key={item?.id}
+                <Box
+                  key={item?._id}
                   sx={{
                     display: "flex",
                     flexDirection: "column",
@@ -244,26 +232,20 @@ import {
                     }}
                   >
                     <Avatar />
-                    <Box
-                      sx={{ display: "flex", flexDirection: "column", gap: 0.5 }}
-                    >
+                    <Box sx={{ display: "flex", flexDirection: "column", gap: 0.5 }}>
                       <Typography
                         sx={{ color: "#ffa000" }}
                         variant="subtitle1"
                         fontWeight="bold"
                       >
-                        {item?.user}
+                        {item?.userId?.username}
                       </Typography>
                       <Typography variant="caption">
-                        {formatDate(item?.time_stamp)}
+                        {formatDate(item?.createdAt)}
                       </Typography>
                     </Box>
                   </Box>
-                  <Typography
-                    key={item?.id}
-                    variant="body1"
-                    sx={{ marginLeft: "3.5rem" }}
-                  >
+                  <Typography key={item?._id} variant="body1" sx={{ marginLeft: "3.5rem" }}>
                     {item?.content}
                   </Typography>
                   <hr style={{ width: "30rem" }} />
@@ -275,9 +257,7 @@ import {
                 id="outlined-multiline-static"
                 label="Comment"
                 multiline
-                onChange={(e) =>
-                  setHandleComment({ post: id, content: e.target.value })
-                }
+                onChange={(e) => setHandleComment({ post: id, content: e.target.value })}
                 value={handleComment.content}
                 rows={4}
                 sx={{ width: "29rem" }}
@@ -286,8 +266,8 @@ import {
                   endAdornment: (
                     <IconButton
                       onClick={() => {
-                        sendComment(handleComment, id)
-                        setHandleComment({ post: id, content: "" })
+                        sendComment(handleComment);
+                        setHandleComment({ post: id, content: "" });
                       }}
                       sx={{ color: "#ffa000" }}
                     >
@@ -300,7 +280,7 @@ import {
           </Box>
         </Paper>
       </Box>
-    )
-  }
+    );
+  };
   
-  export default BlogDetail
+  export default BlogDetail;

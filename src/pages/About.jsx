@@ -11,14 +11,15 @@ const About = () => {
   return (
     <Card
       sx={{
-        maxWidth: 355,
+        maxWidth: 385,
         height: 280, 
         display: "flex",
         flexDirection: "column",
         justifyContent: "center",
-        
+        padding: "10px",
         margin: "auto",
-        marginTop: "2.5rem",
+        marginBottom: "118px",
+        marginTop: "4.7rem",
         textAlign: "center",
         
       }}

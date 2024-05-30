@@ -18,7 +18,7 @@ const blogSlice = createSlice({
   reducers: {
     fetchStart: (state) => {
       state.loading = true;
-      state.error = false;
+      
     },
     getSuccess: (state, { payload: { path, data } }) => {
       state.loading = false;

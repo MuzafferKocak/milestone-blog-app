@@ -1,6 +1,5 @@
 import * as React from "react";
 import Avatar from "@mui/material/Avatar";
-// import CssBaseline from "@mui/material/CssBaseline"
 import Paper from "@mui/material/Paper";
 import Box from "@mui/material/Box";
 import Grid from "@mui/material/Grid";
@@ -25,7 +24,7 @@ const Register = () => {
           height: "80vh",
           alignItems: "center",
           justifyContent: "center",
-          
+          marginBottom:"30rem",
           paddingTop: "1rem",
         }}
       >

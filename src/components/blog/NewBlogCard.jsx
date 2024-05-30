@@ -1,15 +1,8 @@
 import Card from "@mui/material/Card";
 import CardHeader from "@mui/material/CardHeader";
 import CardContent from "@mui/material/CardContent";
-import CardActions from "@mui/material/CardActions";
-import ForumIcon from "@mui/icons-material/Forum";
 import Avatar from "@mui/material/Avatar";
-import IconButton from "@mui/material/IconButton";
 import Typography from "@mui/material/Typography";
-import RemoveRedEyeIcon from "@mui/icons-material/RemoveRedEye";
-import FavoriteIcon from "@mui/icons-material/Favorite";
-import ShareIcon from "@mui/icons-material/Share";
-import SaveAsIcon from "@mui/icons-material/SaveAs";
 import SendIcon from "@mui/icons-material/Send";
 import {
   Box,
@@ -27,12 +20,14 @@ import { useSelector } from "react-redux";
 import useBlogCalls from "../../hooks/useBlogCalls";
 import { useNavigate } from "react-router-dom";
 
+
+
 const NewBlogCard = () => {
   const [newBlogInfo, setNewBlogInfo] = useState({
     title: "",
     content: "",
     image: "",
-    category: "",
+    categoryId: "",
     status: "p",
   });
   const [selectedCategory, setSelectedCategory] = useState(null);
@@ -53,18 +48,18 @@ const NewBlogCard = () => {
 
   const handleFromChange = (e) => {
     const { name, value } = e.target;
-    // console.log("Name:", name);
-    // console.log("Value:", value);
     if (name === "category") {
       setSelectedCategory(value);
+      setNewBlogInfo({ ...newBlogInfo, categoryId: value }); // Değişiklik: categoryId'ye value atanıyor
+    } else {
+      setNewBlogInfo({ ...newBlogInfo, [name]: value });
     }
-    setNewBlogInfo({ ...newBlogInfo, [name]: value });
   };
 
   const submitBlog = () => {
     getNewBlogCreate("blogs", newBlogInfo);
     getPostData("blogs");
-    console.log("Fetching data...", newBlogInfo);
+    console.log("New Blog eklendi", newBlogInfo);
   };
 
   return (
@@ -77,7 +72,7 @@ const NewBlogCard = () => {
         width: "100%",
       }}
     >
-      <Box sx={{ maxWidth: 345, minWidth: "22rem", marginRight: "5rem" }}>
+      <Box sx={{ maxWidth: 345, minWidth: "22rem", marginRight: "5rem", height:"455px" }}>
         <Card>
           <CardHeader
             avatar={<Avatar src={image} aria-label="recipe"></Avatar>}
@@ -89,7 +84,6 @@ const NewBlogCard = () => {
                   alignItems: "center",
                 }}
               >
-                <SaveAsIcon sx={{ color: "aquamarine" }} />
                 <Switch
                   checked={newBlogInfo.status === "p"}
                   onChange={(e) =>
@@ -99,7 +93,6 @@ const NewBlogCard = () => {
                     })
                   }
                 />
-                <SendIcon sx={{ color: "#ffb600" }} />
               </Box>
             }
             title={""}
@@ -132,17 +125,17 @@ const NewBlogCard = () => {
                     <Typography variant="body1" color="textPrimary">
                       {
                         categories.find(
-                          (category) => category.id === newBlogInfo.category
+                          (category) => category.id === newBlogInfo.categoryId
                         )?.name
                       }
                     </Typography>
                   ) : (
-                    "Select a Category"
+                    ""
                   )}
                 </Typography>
               </InputLabel>
               <Select
-                value={newBlogInfo?.category || ""}
+                value={newBlogInfo?.categoryId || ""}
                 onChange={handleFromChange}
                 name="category"
                 labelId="category"
@@ -183,33 +176,17 @@ const NewBlogCard = () => {
               />
             </Box>
           </CardContent>
-          <CardActions disableSpacing>
-            <IconButton aria-label="add to favorites">
-              <FavoriteIcon sx={{ color: "red" }} />
-            </IconButton>
-            <Typography>5+</Typography>
-            <IconButton aria-label="add to favorites">
-              <ForumIcon sx={{ color: "orange" }} />
-            </IconButton>
-            <Typography>9+</Typography>
-            <IconButton aria-label="add to favorites">
-              <RemoveRedEyeIcon sx={{ color: "#07aaea" }} />
-            </IconButton>
-            <Typography>9+</Typography>
-            <IconButton aria-label="share">
-              <ShareIcon />
-            </IconButton>
-            <Button
-              sx={{ marginLeft: "3rem" }}
-              type="submit"
-              onClick={() => {
-                submitBlog();
-                navigate("/");
-              }}
-            >
-              <SendIcon sx={{ color: "#ffb600" }} />
-            </Button>
-          </CardActions>
+          <Button
+            sx={{ marginLeft: "8rem" }}
+            type="submit"
+            onClick={() => {
+              submitBlog();
+              navigate("/");
+            }}
+          >
+            <SendIcon sx={{ color: "#ffb600" }} />
+          </Button>
+          
         </Card>
       </Box>
       <NewBlogPreview title={title} content={content} image={image} />

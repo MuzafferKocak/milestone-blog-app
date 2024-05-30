@@ -24,6 +24,8 @@ const store = configureStore({
   reducer: {
     auth: persistedReducer,
     blog: blogSlice,
+    
+   
   },
   middleware: (getDefaultMiddleware) =>
     getDefaultMiddleware({

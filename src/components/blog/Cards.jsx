@@ -9,7 +9,6 @@ import IconButton from "@mui/material/IconButton"
 import Typography from "@mui/material/Typography"
 import RemoveRedEyeIcon from "@mui/icons-material/RemoveRedEye"
 import FavoriteIcon from "@mui/icons-material/Favorite"
-import ShareIcon from "@mui/icons-material/Share"
 import MoreVertIcon from "@mui/icons-material/MoreVert"
 import { Button } from "@mui/material"
 import useBlogCalls from "../../hooks/useBlogCalls"
@@ -74,7 +73,7 @@ const BlogCard = ({
   }
 
   return (
-    <Card sx={{ maxWidth: 345 }}>
+    <Card sx={{ maxWidth: 345, height:"455px" }}>
       <CardHeader
         avatar={<Avatar src={image} aria-label="recipe"></Avatar>}
         action={
@@ -100,11 +99,12 @@ const BlogCard = ({
           sx={{ height: "4rem" }}
           variant="body2"
           color="text.secondary"
+          dangerouslySetInnerHTML={{ __html: content.substring(0, 140) + "..." }}
         >
-          {content?.substring(0, 140) + "..."}
+          {/* {content?.substring(0, 140) + "..."} */}
         </Typography>
       </CardContent>
-      <CardActions disableSpacing>
+      <CardActions disableSpacing sx={{display: "flex", justifyContent: "center", gap: ".3rem"}}>
         <IconButton
           onClick={() =>
             currentUser ? handleLikeButton(id) : navigate("/login")
@@ -130,9 +130,9 @@ const BlogCard = ({
           <RemoveRedEyeIcon />
         </IconButton>
         <Typography>{postView}</Typography>
-        <IconButton aria-label="share">
+        {/* <IconButton aria-label="share">
           <ShareIcon />
-        </IconButton>
+        </IconButton> */}
         <Button onClick={() => navigate(`/blogdetail/${id}`)}>Read More</Button>
       </CardActions>
     </Card>

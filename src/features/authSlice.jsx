@@ -1,35 +1,37 @@
 import { createSlice } from "@reduxjs/toolkit"
 
+const initialState = {
+  loading: false,
+  error: false,
+  user: "",
+  token: "",
+}
+
 const authSlice = createSlice({
   name: "auth",
+  initialState,
 
-  initialState: {
-    error: false,
-    loading: false,
-    token: null,
-    currentUser: null,
-  },
+  
   reducers: {
     fetchStart: (state) => {
       state.loading = true
-      state.error = false
+      
     },
     loginSuccess: (state, { payload }) => {
       state.loading = false
-      state.currentUser = payload?.user
-      state.isAdmin = payload?.user?.is_superuser
-      state.token = payload?.key
+      state.user = payload.user.username
+      state.token = payload.token
     },
     logoutSuccess: (state) => {
       state.loading = false
-      state.currentUser = null
-      state.token = null
+      state.user = ""
+      state.token = ""
     },
     registerSuccess: (state, { payload }) => {
       state.loading = false
-      state.currentUser = payload?.username
-      state.token = payload?.token
-      state.error = false
+      state.user = payload.data.username
+      state.token = payload.token
+      
     },
     fetchFail: (state) => {
       state.loading = false
@@ -40,9 +42,9 @@ const authSlice = createSlice({
 
 export const {
   fetchStart,
+  fetchFail,
   loginSuccess,
   logoutSuccess,
   registerSuccess,
-  fetchFail,
 } = authSlice.actions
 export default authSlice.reducer

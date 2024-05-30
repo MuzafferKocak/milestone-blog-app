@@ -5,7 +5,7 @@ import { useSelector } from "react-redux";
 import { Button } from "@mui/material";
 import { Link } from "react-router-dom";
 import { object, string } from "yup";
-import { Formik } from "formik";
+import { Form } from "formik";
 
 export const registerScheme = object({
   email: string()
@@ -13,9 +13,9 @@ export const registerScheme = object({
     .required("Email zorunludur"),
   password: string()
     .required("password zorunludur")
-    .min(8, "password en az 8 karakter olmalıdır")
-    .max(30, "password en fazla 30 karakter olmalıdır")
-    .matches(/\d+/, "Password bir sayı içermelidir")
+    .min(8, "password en az 8 karakter olmalidir")
+    .max(30, "password en fazla 30 karakter olmalidir")
+    .matches(/\d+/, "Password bir sayi içermelidir")
     .matches(/[a-z]/, "Password bir küçük harf içermelidir")
     .matches(/[A-Z]/, "Password bir büyük harf içermelidir")
     .matches(/[!,?{}><%&$#£+-.]+/, "Password bir özel karakter içermelidir"),
@@ -33,80 +33,82 @@ const RegisterForm = ({
   console.log(loading);
 
   return (
-    <Formik>
+    <Form>
       <Box sx={{ mt: 1 }}>
         <TextField
-          margin="normal"
+        margin="normal"
+          label="User Name"
+          name="username"
+          id="userName"
+          type="text"
+          variant="outlined"
           required
           fullWidth
-          id="username"
-          label="Username"
-          name="username"
-          type="text"
-          autoComplete="username"
           value={values.username}
           onChange={handleChange}
           onBlur={handleBlur}
-          helperText={touched.username && errors.username}
           error={touched.username && Boolean(errors.username)}
+          helperText={touched.username && errors.username}
         />
         <TextField
-          margin="normal"
-          required
-          fullWidth
-          id="first_name"
+        margin="normal"
           label="First Name"
-          name="first_name"
+          name="firstName"
+          id="firstName"
           type="text"
-          autoComplete="first_name"
-          value={values.first_name}
-          onChange={handleChange}
-          onBlur={handleBlur}
-          helperText={touched.first_name && errors.first_name}
-          error={touched.first_name && Boolean(errors.first_name)}
-        />
-        <TextField
-          margin="normal"
+          variant="outlined"
           required
           fullWidth
-          id="last_name"
+          value={values.firstName}
+          onChange={handleChange}
+          onBlur={handleBlur}
+          error={touched.firstName && Boolean(errors.firstName)}
+          helperText={touched.firstName && errors.firstName}
+        />
+        <TextField
+        margin="normal"
           label="Last Name"
-          name="last_name"
+          name="lastName"
+          id="lastName"
           type="text"
-          autoComplete="last_name"
-          value={values.last_name}
-          onChange={handleChange}
-          onBlur={handleBlur}
-          helperText={touched.last_name && errors.last_name}
-          error={touched.last_name && Boolean(errors.last_name)}
-        />
-        <TextField
-          margin="normal"
+          variant="outlined"
           required
           fullWidth
+          value={values.lastName}
+          onChange={handleChange}
+          onBlur={handleBlur}
+          error={touched.lastName && Boolean(errors.lastName)}
+          helperText={touched.lastName && errors.lastName}
+        />
+        <TextField
+        margin="normal"
+          label="Email"
           name="email"
-          label="Email Address"
-          type="email"
           id="email"
+          type="email"
+          variant="outlined"
+          required
+          fullWidth
           value={values.email}
           onChange={handleChange}
           onBlur={handleBlur}
-          helperText={touched.email && errors.email}
           error={touched.email && Boolean(errors.email)}
+          helperText={touched.email && errors.email}
         />
         <TextField
-          margin="normal"
+        margin="normal"
+          label="password"
+          name="password"
+          id="password"
+          type="password"
+          variant="outlined"
           required
           fullWidth
-          name="password"
-          label="Password"
-          type="password"
-          id="password"
           value={values.password}
           onChange={handleChange}
           onBlur={handleBlur}
-          helperText={touched.password && errors.password}
           error={touched.password && Boolean(errors.password)}
+          helperText={touched.password && errors.password}
         />
 
         <TextField
@@ -153,7 +155,7 @@ const RegisterForm = ({
           </Grid>
         </Grid>
       </Box>
-    </Formik>
+    </Form>
   );
 };
 

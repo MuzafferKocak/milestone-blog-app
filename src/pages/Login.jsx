@@ -36,6 +36,7 @@ const Login = () => {
           justifyContent: "center",
           paddingBottom: "4rem",
           paddingTop: "1rem",
+          marginBottom:"5rem"
         }}
       >
         <Grid item xs={12} sm={8} md={5} component={Paper} elevation={6} square>
@@ -56,10 +57,10 @@ const Login = () => {
               Sign in
             </Typography>
             <Formik
-              initialValues={{ username: "", password: "" }}
+              initialValues={{ email: "", password: "" }}
               validationSchema={loginScheme}
               onSubmit={(values, actions) => {
-                login("login", values);
+                login(values);
                 actions.resetForm();
                 actions.setSubmitting(false);
               }}

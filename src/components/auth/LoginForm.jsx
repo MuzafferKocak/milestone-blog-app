@@ -1,13 +1,14 @@
-import TextField from "@mui/material/TextField"
-import FormControlLabel from "@mui/material/FormControlLabel"
-import Checkbox from "@mui/material/Checkbox"
-import Box from "@mui/material/Box"
-import Grid from "@mui/material/Grid"
-import { useSelector } from "react-redux"
-import { Button } from "@mui/material"
-import { Link } from "react-router-dom"
-import { object, string } from "yup"
-import { Form } from "formik"
+import TextField from "@mui/material/TextField";
+import FormControlLabel from "@mui/material/FormControlLabel";
+import Checkbox from "@mui/material/Checkbox";
+import Box from "@mui/material/Box";
+import Grid from "@mui/material/Grid";
+import { useSelector } from "react-redux";
+// import { LoadingButton } from "@mui/material";
+import { Link } from "react-router-dom";
+import { object, string } from "yup";
+import { Form } from "formik";
+import { LoadingButton } from "@mui/lab";
 
 export const loginScheme = object({
   username: string().required("username zorunludur"),
@@ -19,65 +20,74 @@ export const loginScheme = object({
     .matches(/[a-z]/, "Password bir küçük harf içermelidir")
     .matches(/[A-Z]/, "Password bir büyük harf içermelidir")
     .matches(/[!,?{}><%&$#£+-.]+/, "Password bir özel karakter içermelidir"),
-})
-const LoginForm = ({ values, handleChange, errors, touched, handleBlur }) => {
-  const { loading } = useSelector((state) => state.auth)
-console.log(loading);
+});
+const LoginForm = ({
+  values,
+  handleChange,
+  errors,
+  touched,
+  handleBlur,
+  isSubmitting,
+}) => {
+  const { loading } = useSelector((state) => state.auth);
+  console.log(loading);
   return (
-    <Form sx={{color:"red"}}>
-      <Box sx={{ mt: 1, }}>
+    <Form sx={{ color: "red" }}>
+      <Box sx={{ mt: 1 }}>
         <TextField
           margin="normal"
           required
           fullWidth
-          id="username"
-          label="Username"
-          name="username"
-          autoComplete="username"
-          value={values.username}
+          label="Email"
+          name="email"
+          id="email"
+          type="email"
+          variant="outlined"
+          value={values.email}
           onChange={handleChange}
           onBlur={handleBlur}
-          helperText={touched.username && errors.username}
-          error={touched.username && Boolean(errors.username)}
+          error={touched.email && Boolean(errors.email)}
+          helperText={touched.email && errors.email}
         />
         <TextField
           margin="normal"
           required
           fullWidth
-          name="password"
           label="Password"
-          type="password"
+          name="password"
           id="password"
-          autoComplete="current-password"
+          type="password"
+          variant="outlined"
+          
           value={values.password}
           onChange={handleChange}
           onBlur={handleBlur}
-          helperText={touched.password && errors.password}
           error={touched.password && Boolean(errors.password)}
+          helperText={touched.password && errors.password}
         />
         <FormControlLabel
           control={<Checkbox value="remember" color="primary" />}
           label="Remember me"
         />
-        <Button
-          type="submit"
-          loading={false}
-          fullWidth
+        <LoadingButton
           variant="contained"
+          type="submit"
+          disabled={isSubmitting}
+          fullWidth
+          // loading={false}
           sx={{ mt: 3, mb: 2 }}
         >
           Sign In
-        </Button>
+        </LoadingButton>
         <Grid container>
-          <Grid item>Don't have an account?
-            <Link to="/register">
-              Sign Up
-            </Link>
+          <Grid item>
+            Don't have an account?
+            <Link to="/register">Sign Up</Link>
           </Grid>
         </Grid>
       </Box>
     </Form>
-  )
-}
+  );
+};
 
-export default LoginForm
+export default LoginForm;
