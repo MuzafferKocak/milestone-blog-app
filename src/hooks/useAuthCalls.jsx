@@ -30,7 +30,7 @@ const useAuthCalls = () => {
   const logout = async () => {
     dispatch(fetchStart());
     try {
-      await axiosToken.get("/auth/logout");
+      await axiosToken.get("/auth/logout/");
       dispatch(logoutSuccess());
       toastSuccessNotify("logout performed");
       navigate("/login");

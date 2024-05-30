@@ -14,7 +14,6 @@ import {
   import useBlogCalls from "../hooks/useBlogCalls";
   import RemoveRedEyeIcon from "@mui/icons-material/RemoveRedEye";
   import FavoriteIcon from "@mui/icons-material/Favorite";
-  import ShareIcon from "@mui/icons-material/Share";
   import ForumIcon from "@mui/icons-material/Forum";
   import SendIcon from "@mui/icons-material/Send";
   import MoreVertIcon from "@mui/icons-material/MoreVert";
@@ -25,7 +24,7 @@ import {
   
   const BlogDetail = () => {
     const { blogsDetail } = useSelector((state) => state.blog);
-    const currentUser = useSelector((state) => state.auth.currentUser);
+    const user = useSelector((state) => state.auth.user);
     const { getDetailRead, getLikeCreate, getPostData, getCreateComment } = useBlogCalls();
     const [handleComment, setHandleComment] = useState({ post: "", content: "" });
   
@@ -34,7 +33,7 @@ import {
   
     const { id } = useParams();
     const blogLikes = useSelector((state) => state.blog.blog);
-    const userId = useSelector((state) => state.auth.currentUser);
+    const userId = useSelector((state) => state.auth.user);
     const likedPost = [];
   
     const formatDate = (dateString) => {
@@ -117,7 +116,7 @@ import {
             }}
             title={<Typography variant="h4">{blogsDetail?.title}</Typography>}
             action={
-              blogsDetail?.userId?.username === currentUser?.username && (
+              blogsDetail?.userId?.username === user?.username && (
                 <>
                   <IconButton onClick={handleMenuClick} aria-label="settings">
                     <MoreVertIcon />
@@ -202,9 +201,9 @@ import {
                   <RemoveRedEyeIcon sx={{ color: "#07aaea" }} />
                 </IconButton>
                 <Typography>{blogsDetail?.countOfVisitors}</Typography>
-                <IconButton aria-label="share">
+                {/* <IconButton aria-label="share">
                   <ShareIcon />
-                </IconButton>
+                </IconButton> */}
               </CardActions>
             </Box>
           </Box>
