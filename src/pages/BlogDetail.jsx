@@ -87,7 +87,7 @@ import {
     }, []); // eslint-disable-line
   
     const handleLikeButton = () => {
-      getLikeCreate("likes", id);
+      getLikeCreate("blogs", id);
       setTimeout(() => {
         getDetailRead("blogs", id)
         getPostData("blogs")

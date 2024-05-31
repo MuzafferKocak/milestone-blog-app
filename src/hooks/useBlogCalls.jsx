@@ -79,13 +79,13 @@ const useBlogCalls = () => {
     }
   };
 
-  const getLikeCreate = async (path, id,postLike) => {
+  const getLikeCreate = async (path, id) => {
     dispatch(fetchStart());
     try {
-      const { data } = await axiosToken.post(`/${path}/${id}/`, postLike);
-      console.log("liked:",path );
+      const { data } = await axiosToken.post(`/${path}/${id}/postLike`  );
       
-      dispatch(getSuccess({ data: data.data, path: postLike }));
+      
+      dispatch(getSuccess({ data: data.data, path }));
     } catch (error) {
       toastErrorNotify("Operations failed, check your internet connection");
       dispatch(fetchFail());

@@ -15,6 +15,7 @@ import useBlogCalls from "../../hooks/useBlogCalls"
 import { useNavigate } from "react-router-dom"
 import { useSelector } from "react-redux"
 
+
 const BlogCard = ({
   id,
   title,
@@ -60,8 +61,10 @@ const BlogCard = ({
   const result = `${formattedDate} ${formattedTime}`
   // console.log("Original date:", createdAt,);
 
+   
+
   const handleLikeButton = (id) => {
-    getLikeCreate("likes", id)
+    getLikeCreate("blogs", id)
     setTimeout(() => {
       getPostData("blogs")
     }, 100)

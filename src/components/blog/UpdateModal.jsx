@@ -11,7 +11,7 @@ const UpdateModal = ({ handleOpenUpdate, openUpdate, handleCloseUpdate }) => {
     left: "50%",
     transform: "translate(-50%, -50%)",
     width: 400,
-    bgcolor: "background.paper",
+    bgcolor: "#e1e5e1",
     border: "2px solid #000",
     boxShadow: 24,
     p: 4,
@@ -40,7 +40,7 @@ const UpdateModal = ({ handleOpenUpdate, openUpdate, handleCloseUpdate }) => {
             <Typography variant="body1" sx={{ mb: 2 }}>
               Edit your blog post here.
             </Typography>
-            {/* Your form goes here */}
+            
           </Box>
         </Fade>
       </Modal>
