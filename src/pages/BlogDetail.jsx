@@ -32,8 +32,8 @@ import {
     const [openDelete, setOpenDelete] = useState(false);
   
     const { id } = useParams();
-    const blogLikes = useSelector((state) => state.blog.blog);
-    const userId = useSelector((state) => state.auth.user);
+    const {blogLikes} = useSelector((state) => state.blog);
+    const {userId} = useSelector((state) => state.auth.user);
     const likedPost = [];
   
     const formatDate = (dateString) => {
@@ -55,7 +55,7 @@ import {
     };
   
     blogLikes?.forEach((item) => {
-      const userLikes = item.likes_n;
+      const userLikes = item.likes;
       userLikes?.forEach((i) => {
         if (userId?.id === i.user_id) {
           likedPost.push(i.post_id);
@@ -96,6 +96,7 @@ import {
     };
   
     const sendComment = (comment) => {
+        console.log(comment, id)
       getCreateComment("comments", id, comment);
       setTimeout(() => {
         getDetailRead("blogs", id);
@@ -116,7 +117,7 @@ import {
             }}
             title={<Typography variant="h4">{blogsDetail?.title}</Typography>}
             action={
-              blogsDetail?.userId?.username === user?.username && (
+              blogsDetail?.userId?.user === user?.user && (
                 <>
                   <IconButton onClick={handleMenuClick} aria-label="settings">
                     <MoreVertIcon />
@@ -165,7 +166,7 @@ import {
           <Box sx={{ display: "flex", alignItems: "center", marginBottom: "1rem" }}>
             <Avatar />
             <Box sx={{ marginLeft: "1rem" }}>
-              <Typography variant="subtitle1">{blogsDetail?.userId?.username}</Typography>
+              <Typography variant="subtitle1">{blogsDetail?.userId?.user}</Typography>
               <Typography variant="subtitle2">
                 {formatDate(blogsDetail?.createdAt)}
               </Typography>
@@ -237,7 +238,7 @@ import {
                         variant="subtitle1"
                         fontWeight="bold"
                       >
-                        {item?.userId?.username}
+                        {item?.userId?.user}
                       </Typography>
                       <Typography variant="caption">
                         {formatDate(item?.createdAt)}
@@ -259,7 +260,7 @@ import {
                 onChange={(e) => setHandleComment({ post: id, content: e.target.value })}
                 value={handleComment.content}
                 rows={4}
-                sx={{ width: "29rem" }}
+                sx={{ width: "35rem" }}
                 placeholder="to Comment"
                 InputProps={{
                   endAdornment: (

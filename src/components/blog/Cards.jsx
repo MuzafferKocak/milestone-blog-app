@@ -28,10 +28,10 @@ const BlogCard = ({
 }) => {
   const { getLikeCreate, getPostData, getDetailRead } = useBlogCalls()
   const navigate = useNavigate()
-  const currentUser = useSelector((state) => state.auth.currentUser)
+  const user = useSelector((state) => state.auth.user)
 
   // const {likes} = useSelector((state) => state.blog)
-  const userId = useSelector((state) => state.auth.currentUser)
+  const userId = useSelector((state) => state.auth.user)
   const likedPost = []
 
   
@@ -42,7 +42,7 @@ const BlogCard = ({
   
 
   likes?.map((item) => {
-    const userLikes = item.likes_n
+    const userLikes = item.likes
     // eslint-disable-next-line
     return userLikes?.map((i) => {
       if (userId?.id === i.user_id) {
@@ -107,7 +107,7 @@ const BlogCard = ({
       <CardActions disableSpacing sx={{display: "flex", justifyContent: "center", gap: ".3rem"}}>
         <IconButton
           onClick={() =>
-            currentUser ? handleLikeButton(id) : navigate("/login")
+            user ? handleLikeButton(id) : navigate("/login")
           }
           aria-label="add to favorites"
         >
@@ -119,7 +119,7 @@ const BlogCard = ({
         <IconButton
           sx={{ color: "orange" }}
           onClick={() =>
-            currentUser ? handleCommentIcon(id) : navigate("/login")
+            user ? handleCommentIcon(id) : navigate("/login")
           }
           aria-label="add to favorites"
         >

@@ -3,8 +3,8 @@ import { createSlice } from "@reduxjs/toolkit"
 const initialState = {
   loading: false,
   error: false,
-  user: "",
-  token: "",
+  user: null,
+  token: null,
 }
 
 const authSlice = createSlice({
@@ -15,6 +15,7 @@ const authSlice = createSlice({
   reducers: {
     fetchStart: (state) => {
       state.loading = true
+      state.error= false
       
     },
     loginSuccess: (state, { payload }) => {
@@ -23,9 +24,10 @@ const authSlice = createSlice({
       state.token = payload.token
     },
     logoutSuccess: (state) => {
+      console.log("Logout success called");
       state.loading = false
-      state.user = ""
-      state.token = ""
+      state.user = null
+      state.token = null
     },
     registerSuccess: (state, { payload }) => {
       state.loading = false

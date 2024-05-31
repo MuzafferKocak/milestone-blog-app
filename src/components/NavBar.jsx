@@ -15,12 +15,14 @@ import { useNavigate } from "react-router-dom";
 import { useSelector } from "react-redux";
 import { useState } from "react";
 import Logo from "../assets/logo1.png"
+import useAuthCalls from "../hooks/useAuthCalls";
 
 const NavBar = ({ setPrefersDarkMode, prefersDarkMode }) => {
   const [anchorElNav, setAnchorElNav] = useState(null);
   const [anchorElUser, setAnchorElUser] = useState(null);
 
-  const currentUser = useSelector((state) => state.auth.currentUser);
+  const {user} = useSelector((state) => state.auth);
+  const { logout } = useAuthCalls()
 
   const handleOpenNavMenu = (event) => {
     setAnchorElNav(event.currentTarget);
@@ -40,6 +42,7 @@ const NavBar = ({ setPrefersDarkMode, prefersDarkMode }) => {
     setPrefersDarkMode(!prefersDarkMode);
   };
   const navigate = useNavigate();
+  
 
   return (
     <AppBar
@@ -113,8 +116,8 @@ const NavBar = ({ setPrefersDarkMode, prefersDarkMode }) => {
           <Box sx={{ flexGrow: 0 }}>
             <Tooltip title="Open settings">
               <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
-                {currentUser && currentUser.image ? (
-                  <Avatar src={currentUser.image} alt="avatar" />
+                {user && user.image ? (
+                  <Avatar src={user.image} alt="avatar" />
                 ) : (
                   <Avatar></Avatar>
                 )}
@@ -146,9 +149,9 @@ const NavBar = ({ setPrefersDarkMode, prefersDarkMode }) => {
                   Dashboard
                 </Typography>
               </MenuItem>
-              {currentUser ? (
-                <MenuItem onClick={handleCloseUserMenu}>
-                  <Typography onClick={() => navigate("/logout")} textAlign="center">
+              {user ? (
+                <MenuItem onClick={ handleCloseUserMenu}>
+                  <Typography onClick={() =>  {navigate("/"); logout()}} textAlign="center">
                     Logout
                   </Typography>
                 </MenuItem>

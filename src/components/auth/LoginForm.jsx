@@ -60,7 +60,7 @@ const LoginForm = ({
           type="submit"
           disabled={isSubmitting}
           fullWidth
-          // loading={false}
+          loading={false}
           sx={{ mt: 3, mb: 2 }}
         >
           Sign In

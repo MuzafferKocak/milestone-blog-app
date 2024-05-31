@@ -25,18 +25,7 @@ const useBlogCalls = () => {
       dispatch(fetchFail());
     }
   };
-  const getLikeCreate = async (path, id) => {
-    dispatch(fetchStart());
-    try {
-      const { data } = await axiosToken.post(`/${path}/${id}/`);
-      
-      
-      dispatch(getSuccess({ data: data.data, path }));
-    } catch (error) {
-      toastErrorNotify("Operations failed, check your internet connection");
-      dispatch(fetchFail());
-    }
-  };
+  
   const getCategories = async (path) => {
     dispatch(fetchStart());
     try {
@@ -74,18 +63,38 @@ const useBlogCalls = () => {
     }
   };
   const getCreateComment = async (path, id, comment) => {
+    
     dispatch(fetchStart());
     try {
-      const { data } = await axiosToken.post(`/${path}/${id}/`, comment);
-      console.log("Fetched Data:", data.data, comment);
-      dispatch(getSuccess({ data: data.data, path }));
+      const { data } = await axiosToken.get(`/${path}/${id}/`, comment);
+      
+      dispatch(getSuccess({ data: data.data, path: comment }));
+      
       
       toastSuccessNotify("Your comment has been sent successfully 👌");
     } catch (error) {
+        
       toastErrorNotify("An error occurred while submitting your comment. 🤨");
       dispatch(fetchFail());
     }
   };
+
+  const getLikeCreate = async (path, id,postLike) => {
+    dispatch(fetchStart());
+    try {
+      const { data } = await axiosToken.post(`/${path}/${id}/`, postLike);
+      console.log("liked:",path );
+      
+      dispatch(getSuccess({ data: data.data, path: postLike }));
+    } catch (error) {
+      toastErrorNotify("Operations failed, check your internet connection");
+      dispatch(fetchFail());
+    }
+  };
+
+
+
+
   const deleteBlog = async (path, id) => {
     dispatch(fetchStart());
     try {

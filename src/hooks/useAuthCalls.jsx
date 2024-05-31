@@ -30,10 +30,11 @@ const useAuthCalls = () => {
   const logout = async () => {
     dispatch(fetchStart());
     try {
+      
       await axiosToken.get("/auth/logout/");
       dispatch(logoutSuccess());
       toastSuccessNotify("logout performed");
-      navigate("/login");
+      navigate("/");
     } catch (error) {
       toastErrorNotify("An error occurred while logging in");
       dispatch(fetchFail());
@@ -51,6 +52,11 @@ const useAuthCalls = () => {
       console.log(error);
     }
   };
+
+
+  
+
+
   return { login, logout, register };
 };
 

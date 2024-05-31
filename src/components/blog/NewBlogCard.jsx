@@ -50,7 +50,7 @@ const NewBlogCard = () => {
     const { name, value } = e.target;
     if (name === "category") {
       setSelectedCategory(value);
-      setNewBlogInfo({ ...newBlogInfo, categoryId: value }); // Değişiklik: categoryId'ye value atanıyor
+      setNewBlogInfo({ ...newBlogInfo, categoryId: value }); 
     } else {
       setNewBlogInfo({ ...newBlogInfo, [name]: value });
     }
@@ -59,7 +59,7 @@ const NewBlogCard = () => {
   const submitBlog = () => {
     getNewBlogCreate("blogs", newBlogInfo);
     getPostData("blogs");
-    console.log("New Blog eklendi", newBlogInfo);
+    // console.log("New Blog eklendi", newBlogInfo);
   };
 
   return (
@@ -156,8 +156,8 @@ const NewBlogCard = () => {
               sx={{ width: "5rem" }}
               id="title"
               label="Title"
-              name="content"
-              value={newBlogInfo?.content || ""}
+              name="title"
+              value={newBlogInfo?.title || ""}
               onChange={handleFromChange}
             />
             <Box
@@ -170,9 +170,9 @@ const NewBlogCard = () => {
                 fullWidth
                 id="blog"
                 label="Blog"
-                value={newBlogInfo?.title || ""}
+                value={newBlogInfo?.content || ""}
                 onChange={handleFromChange}
-                name="title"
+                name="content"
               />
             </Box>
           </CardContent>

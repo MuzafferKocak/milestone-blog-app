@@ -12,6 +12,7 @@ import { Formik } from "formik";
 import useAuthCalls from "../hooks/useAuthCalls";
 // import {  red, orange } from '@mui/material/colors';
 import { loginScheme } from "../validation/login";
+
 const theme = createTheme();
 // const theme = createTheme({
 //     palette: {
@@ -27,8 +28,8 @@ const Login = () => {
   const handleSubmit = (values,actions) => {
     console.log('onsubmit');  
     login(values);
-    // actions.resetForm();
-    // actions.setSubmitting(false);
+    actions.resetForm();
+    actions.setSubmitting(false);
   }
   return (
     <ThemeProvider theme={theme}>
