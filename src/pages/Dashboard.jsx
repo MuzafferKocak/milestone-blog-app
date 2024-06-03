@@ -1,5 +1,5 @@
 import { useSelector } from "react-redux";
-import BlogCard from "../components/blog/Cards";
+import BlogCard from "../components/blog/BlogCard";
 import useBlogCalls from "../hooks/useBlogCalls";
 import { useEffect } from "react";
 import { Box, Grid } from "@mui/material";

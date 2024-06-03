@@ -9,21 +9,19 @@ import BlogDetail from "../pages/BlogDetail";
 
 const AppRouter = () => {
   return (
-    
     <Routes>
-    <Route index path="/" element={<Dashboard />} />
-    <Route path="login" element={<Login />} />
-    <Route path="register" element={<Register />} />
-    {/* <Route path="*" element={<NotFound />} /> */}
-    <Route path="" element={<PrivateRouter />}>
-      {/* <Route path="profile" element={<Profile />} /> */}
-      <Route path="newblog" element={<NewBlog />} />
-      <Route path={`/blogdetail/:id`} element={<BlogDetail />} />
-      <Route path="about" element={<About />} />
-      {/* <Route path="drafts" element={<Drafts />} /> */}
-    </Route>
-  </Routes>
-    
+      <Route path="/login" element={<Login />} />
+      <Route path="/register" element={<Register />} />
+      <Route path="/about" element={<About />} />
+      <Route path="/" element={<Dashboard />} />
+      {/* <Route path="*" element={<NotFound />} /> */}
+      <Route path="/" element={<PrivateRouter />}>
+        {/* <Route path="profile" element={<Profile />} /> */}
+        <Route path="/newblog" element={<NewBlog />} />
+        <Route path={`/blogdetail/:id`} element={<BlogDetail />} />
+        {/* <Route path="drafts" element={<Drafts />} /> */}
+      </Route>
+    </Routes>
   );
 };
 

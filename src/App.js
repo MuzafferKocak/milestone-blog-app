@@ -7,6 +7,7 @@ import Navbar from "./components/NavBar";
 import AppRouter from "./router/AppRouter";
 import store, { persistor } from "./app/store";
 import Footer from "./components/Footer";
+import { BrowserRouter as Router } from "react-router-dom";
 
 function App() {
   const [prefersDarkMode, setPrefersDarkMode] = useState(true);
@@ -25,15 +26,17 @@ function App() {
     <ThemeProvider theme={theme}>
       <Provider store={store}>
         <PersistGate loading={null} persistor={persistor}>
-          <Navbar
-            setPrefersDarkMode={setPrefersDarkMode}
-            prefersDarkMode={prefersDarkMode}
-          />
-          <AppRouter  />
-          <Footer prefersDarkMode={prefersDarkMode} />
-          <ToastContainer />
+          <Router>
+            <Navbar
+              setPrefersDarkMode={setPrefersDarkMode}
+              prefersDarkMode={prefersDarkMode}
+            />
+            <AppRouter />
+            <Footer prefersDarkMode={prefersDarkMode} />
+          </Router>
         </PersistGate>
       </Provider>
+      <ToastContainer />
     </ThemeProvider>
   );
 }

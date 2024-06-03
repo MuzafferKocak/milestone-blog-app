@@ -62,6 +62,10 @@ import {
         }
       });
     });
+
+    console.log("likes:", blogLikes);
+console.log("userId:", userId);
+console.log("LikedPost",likedPost);
   
     const [anchorEl, setAnchorEl] = useState(null);
   
@@ -87,12 +91,12 @@ import {
     }, []); // eslint-disable-line
   
     const handleLikeButton = () => {
-      getLikeCreate("blogs", id);
+      getLikeCreate("blogs", id,);
       setTimeout(() => {
         getDetailRead("blogs", id)
         getPostData("blogs")
         
-      }, 10);
+      }, 100);
     };
   
     const sendComment = (comment) => {
@@ -186,12 +190,12 @@ import {
               <CardActions disableSpacing>
                 <IconButton onClick={handleLikeButton} aria-label="add to favorites">
                   <FavoriteIcon
-                    sx={{ color: likedPost.includes(blogsDetail?._id) ? "red" : "white" }}
+                    sx={{ color: likedPost.includes(blogsDetail?.id) ? "red" : "white" }}
                   />
                 </IconButton>
                 <Typography>{blogsDetail?.likes?.length}</Typography>
                 <IconButton aria-label="add to favorites">
-                  <ForumIcon sx={{ color: "#ffa000" }} />
+                  <ForumIcon sx={{ color: "green" }} />
                 </IconButton>
                 <Typography>{blogsDetail?.comments?.length}</Typography>
               </CardActions>
@@ -208,7 +212,7 @@ import {
               </CardActions>
             </Box>
           </Box>
-          <hr style={{ width: "30rem" }} />
+          {/* <hr style={{ width: "30rem" }} /> */}
           <Box sx={{ marginTop: "2rem" }}>
             {blogsDetail?.comments?.length === 0 ? (
               <Typography>Be the first to comment...</Typography>
@@ -248,7 +252,7 @@ import {
                   <Typography key={item?._id} variant="body1" sx={{ marginLeft: "3.5rem" }}>
                     {item?.content}
                   </Typography>
-                  <hr style={{ width: "30rem" }} />
+                  {/* <hr style={{ width: "30rem" }} /> */}
                 </Box>
               ))
             )}

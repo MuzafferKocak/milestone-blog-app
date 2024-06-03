@@ -14,6 +14,9 @@ import { Button } from "@mui/material"
 import useBlogCalls from "../../hooks/useBlogCalls"
 import { useNavigate } from "react-router-dom"
 import { useSelector } from "react-redux"
+// import { useEffect } from "react"
+// import React, { useState, useEffect } from 'react';
+
 
 
 const BlogCard = ({
@@ -30,27 +33,59 @@ const BlogCard = ({
   const { getLikeCreate, getPostData, getDetailRead } = useBlogCalls()
   const navigate = useNavigate()
   const user = useSelector((state) => state.auth.user)
-
-  // const {likes} = useSelector((state) => state.blog)
   const userId = useSelector((state) => state.auth.user)
-  const likedPost = []
+  // const likedPost = [];
+  // const likedPost = likes.filter(item => item.user_id === userId);
+  // const { likes } = useBlogCalls();
+
+  
 
   
   const likeCount = Array.isArray(likes) ? likes.length : likes || 0;
   const commentCount = Array.isArray(comments) ? comments.length : 0;
   const postView = countOfVisitors || 0;
-// console.log(likeCount, commentCount, postView);
-  
 
-  likes?.map((item) => {
-    const userLikes = item.likes
-    // eslint-disable-next-line
-    return userLikes?.map((i) => {
-      if (userId?.id === i.user_id) {
-        likedPost.push(i.post_id)
-      }
-    })
-  })
+  // const handleLikeButton = (id) => {
+    
+  //   console.log("Liking post:", id);
+  //   getLikeCreate("blogs", id)
+  //   setTimeout(() => {
+  //     getPostData("blogs")
+  //   }, 100)
+  // }
+  const handleLikeButton = () => {
+    user ? getLikeCreate(id).then(() => getPostData("blogs")) : navigate("/login");
+  };
+//   console.log("likes:", likes);
+// console.log("userId:", userId);
+// console.log("LikedPost",likedPost);
+// console.log("likedPost.includes(id):", likedPost.includes(id));
+// console.log("Rengi belirleme koşulu:", likedPost.includes(id) ? "red" : "white");
+// likes.forEach((item)=>{
+//   console.log("item:", item);
+//   if(item.user_id === userId){
+//     likedPost.push(item.post_id)
+//   }
+// })
+
+const handleCommentIcon = (id) => {
+  getDetailRead("blogs", id)
+  navigate(`/blogdetail/${id}`)
+}
+
+// likes.forEach((item) => {
+//   console.log(item);
+//   const userLikes = item.likes;
+//   userLikes?.forEach((i) => {
+//     console.log(item.likes);
+//     if (userId?.id === i.user_id) {
+//       likedPost.push(i.post_id);
+//     }
+   
+//   });
+// });
+
+
 
   const dateString = createdAt
   const dateObj = new Date(dateString)
@@ -59,21 +94,15 @@ const BlogCard = ({
   }.${dateObj.getFullYear()}`
   const formattedTime = dateObj.toLocaleTimeString("de-DE")
   const result = `${formattedDate} ${formattedTime}`
-  // console.log("Original date:", createdAt,);
+  
 
-   
+  
 
-  const handleLikeButton = (id) => {
-    getLikeCreate("blogs", id)
-    setTimeout(() => {
-      getPostData("blogs")
-    }, 100)
-  }
+  
 
-  const handleCommentIcon = (id) => {
-    getDetailRead("blogs", id)
-    navigate(`/blogdetail/${id}`)
-  }
+  
+
+  
 
   return (
     <Card sx={{ maxWidth: 345, height:"455px" }}>
@@ -92,7 +121,7 @@ const BlogCard = ({
         height="194"
         sx={{ objectFit: "contain" }}
         image={image}
-        alt="Paella dish"
+        alt="Image"
       />
       <CardContent>
         <Typography variant="h6" color="#ffa000">
@@ -108,19 +137,18 @@ const BlogCard = ({
         </Typography>
       </CardContent>
       <CardActions disableSpacing sx={{display: "flex", justifyContent: "center", gap: ".3rem"}}>
-        <IconButton
-          onClick={() =>
-            user ? handleLikeButton(id) : navigate("/login")
-          }
-          aria-label="add to favorites"
-        >
+        <IconButton aria-label="add to favorites"
+          onClick={handleLikeButton}>
+            
+          
           <FavoriteIcon
-            sx={{ color: likedPost.includes(id) ? "red" : "white" }}
+            sx={{ color: likes.includes(id) ? "red" : "white"    
+            }}
           />
         </IconButton>
         <Typography>{likeCount}</Typography>
         <IconButton
-          sx={{ color: "orange" }}
+          sx={{ color: "green" }}
           onClick={() =>
             user ? handleCommentIcon(id) : navigate("/login")
           }

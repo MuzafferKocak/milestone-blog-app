@@ -1,7 +1,7 @@
 import { fetchFail, fetchStart } from "../features/authSlice"
 import { useDispatch } from "react-redux";
 import useAxios from "./useAxios";
-import { getSuccess, } from "../features/blogSlice";
+import { getSuccess, getLikeSuccess } from "../features/blogSlice";
 import { toastErrorNotify, toastSuccessNotify } from "../helper/ToastNotify";
 
 
@@ -17,7 +17,7 @@ const useBlogCalls = () => {
       const { data } = await axiosPublic.get(`/${path}/`);
     //   console.log("Fetched Data:", data.data);
       const datas = data.data
-    //   console.log(datas);
+      console.log(datas);
       dispatch(getSuccess({data: datas, path }));
     } catch (error) {
       
@@ -79,16 +79,25 @@ const useBlogCalls = () => {
     }
   };
 
-  const getLikeCreate = async (path, id) => {
-    dispatch(fetchStart());
+  // const getLikeCreate = async (path, id, likes) => {
+  //   dispatch(fetchStart());
+  //   try {
+  //     const { data } = await axiosToken.post(`/${path}/${id}/postLike`  );
+      
+      
+  //     dispatch(getSuccess({ data: data.data, path: likes }));
+  //   } catch (error) {
+  //     toastErrorNotify("Operations failed, check your internet connection");
+  //     dispatch(fetchFail());
+  //   }
+  // };
+
+  const getLikeCreate = async (id) => {
     try {
-      const { data } = await axiosToken.post(`/${path}/${id}/postLike`  );
-      
-      
-      dispatch(getSuccess({ data: data.data, path }));
+      const { data } = await axiosToken.post(`/blogs/${id}/postLike`,{});
+      dispatch(getLikeSuccess(data));
     } catch (error) {
-      toastErrorNotify("Operations failed, check your internet connection");
-      dispatch(fetchFail());
+      console.log(error);
     }
   };
 
