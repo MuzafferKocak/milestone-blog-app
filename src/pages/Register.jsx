@@ -9,7 +9,7 @@ import { createTheme, ThemeProvider } from "@mui/material/styles";
 import RegisterForm from "../components/auth/RegisterForm";
 import { Formik } from "formik";
 import useAuthCalls from "../hooks/useAuthCalls";
-import {registerScheme} from "../validation/register";
+import {registerScheme} from "../components/auth/RegisterForm"
 const theme = createTheme();
 
 const Register = () => {
@@ -69,7 +69,7 @@ const Register = () => {
                 password: "",
                 image: "",
                 bio: "",
-                city : 'istanbul'
+                
                 
               }}
               validationSchema={registerScheme}

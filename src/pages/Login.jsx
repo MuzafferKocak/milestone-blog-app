@@ -11,7 +11,7 @@ import LoginForm from "../components/auth/LoginForm";
 import { Formik } from "formik";
 import useAuthCalls from "../hooks/useAuthCalls";
 // import {  red, orange } from '@mui/material/colors';
-import { loginScheme } from "../validation/login";
+import { loginScheme } from "../components/auth/LoginForm";
 
 const theme = createTheme();
 // const theme = createTheme({

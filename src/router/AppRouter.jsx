@@ -5,6 +5,7 @@ import PrivateRouter from "./PrivateRouter";
 import About from "../pages/About";
 import Dashboard from "../pages/Dashboard";
 import NewBlog from "../pages/NewBlog";
+// import Test from "../pages/Test";
 import BlogDetail from "../pages/BlogDetail";
 
 const AppRouter = () => {

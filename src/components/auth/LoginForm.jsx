@@ -5,14 +5,23 @@ import Box from "@mui/material/Box";
 import Grid from "@mui/material/Grid";
 import { Link } from "react-router-dom";
 import { Form } from "formik";
+import { object, string } from "yup";
 import { LoadingButton } from "@mui/lab";
 import { Visibility, VisibilityOff } from "@mui/icons-material";
 import { IconButton, InputAdornment } from "@mui/material";
 import { useState } from "react";
 
-
-
-
+export const loginScheme = object({
+  username: string().required("Username is required."),
+  password: string()
+    .required("Password is required")
+    .matches(/[a-z]/, "Password must contain at least one lowercase letter")
+    .matches(/[A-Z]/, "Password must contain at least one uppercase letter")
+    .matches(/\d+/, "Password must contain at least one number")
+    .matches(/[@$!%*?&]/, "Password must contain one of @$!%*?&")
+    .min(8, "Password must be at least 8 characters")
+    .max(15, "Password must be at most 15 characters"),
+});
 
 const LoginForm = ({
   values,
@@ -22,10 +31,8 @@ const LoginForm = ({
   handleBlur,
   isSubmitting,
 }) => {
-  
-
   const [showPassword, setShowPassword] = useState(false);
-  
+
   return (
     <Form sx={{ color: "red" }}>
       <Box sx={{ mt: 1 }}>
@@ -51,25 +58,24 @@ const LoginForm = ({
           id="password"
           type={showPassword ? "text" : "password"}
           variant="outlined"
-          
           value={values.password}
           onChange={handleChange}
           onBlur={handleBlur}
           error={touched.password && Boolean(errors.password)}
           helperText={touched.password && errors.password}
           InputProps={{
-                      endAdornment: (
-                        <InputAdornment position="end">
-                          <IconButton
-                            aria-label="toggle password visibility"
-                            onClick={() => setShowPassword((show) => !show)}
-                            edge="end"
-                          >
-                            {showPassword ? <Visibility /> : <VisibilityOff /> }
-                          </IconButton>
-                          </InputAdornment>
-                      ),
-                    }}
+            endAdornment: (
+              <InputAdornment position="end">
+                <IconButton
+                  aria-label="toggle password visibility"
+                  onClick={() => setShowPassword((show) => !show)}
+                  edge="end"
+                >
+                  {showPassword ? <Visibility /> : <VisibilityOff />}
+                </IconButton>
+              </InputAdornment>
+            ),
+          }}
         />
         <FormControlLabel
           control={<Checkbox value="remember" color="primary" />}

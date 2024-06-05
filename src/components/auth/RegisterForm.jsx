@@ -1,30 +1,32 @@
 import TextField from "@mui/material/TextField";
 import Box from "@mui/material/Box";
 import Grid from "@mui/material/Grid";
-import { useSelector } from "react-redux";
-import { Button } from "@mui/material";
+// import { useSelector } from "react-redux";
+import { Button, IconButton, InputAdornment } from "@mui/material";
 import { Link } from "react-router-dom";
 import { object, string } from "yup";
 import { Form } from "formik";
+import { useState } from "react";
+import { Visibility, VisibilityOff } from "@mui/icons-material";
 
 export const registerScheme = object({
   email: string()
-    .email("Lutfen valid bir email giriniz")
-    .required("Email zorunludur"),
+    .email("Please enter a valid email")
+    .required("Email is required"),
   password: string()
-    .required("password zorunludur")
-    .min(8, "password en az 8 karakter olmalidir")
-    .max(30, "password en fazla 30 karakter olmalidir")
-    .matches(/\d+/, "Password bir sayi içermelidir")
-    .matches(/[a-z]/, "Password bir küçük harf içermelidir")
-    .matches(/[A-Z]/, "Password bir büyük harf içermelidir")
-    .matches(/[!,?{}><%&$#£+-.]+/, "Password bir özel karakter içermelidir"),
+    .required("Password is required")
+    .min(8, "Password must be at least 8 characters")
+    .max(30, "Password must be at most 15 characters")
+    .matches(/\d+/, "Password must contain at least one number")
+    .matches(/[a-z]/, "Password must contain at least one lowercase letter")
+    .matches(/[A-Z]/, "Password must contain at least one uppercase letter")
+    .matches(/[@$!%*?&]/, "Password must contain one of @$!%*?&"),
   firstName: string().required("First Name is required"),
   lastName: string().required("Last Name is required"),
   username: string().required("Username is required"),
-  bio: string().required("Bio is required"),
-    })
-  
+  bio: string(),
+});
+
 const RegisterForm = ({
   values,
   handleBlur,
@@ -32,14 +34,15 @@ const RegisterForm = ({
   errors,
   handleChange,
 }) => {
-  const { loading } = useSelector((state) => state.auth);
-  console.log(loading);
+  // const { loading } = useSelector((state) => state.auth);
+  // console.log(loading);
+  const [showPassword, setShowPassword] = useState(false);
 
   return (
     <Form>
       <Box sx={{ mt: 1 }}>
         <TextField
-        margin="normal"
+          margin="normal"
           label="User Name"
           name="username"
           id="userName"
@@ -53,7 +56,7 @@ const RegisterForm = ({
           helperText={touched.username && errors.username}
         />
         <TextField
-        margin="normal"
+          margin="normal"
           label="First Name"
           name="firstName"
           id="firstName"
@@ -67,7 +70,7 @@ const RegisterForm = ({
           helperText={touched.firstName && errors.firstName}
         />
         <TextField
-        margin="normal"
+          margin="normal"
           label="Last Name"
           name="lastName"
           id="last_name"
@@ -81,7 +84,7 @@ const RegisterForm = ({
           helperText={touched.lastName && errors.lastName}
         />
         <TextField
-        margin="normal"
+          margin="normal"
           label="Email"
           name="email"
           id="email"
@@ -95,11 +98,11 @@ const RegisterForm = ({
           helperText={touched.email && errors.email}
         />
         <TextField
-        margin="normal"
+          margin="normal"
           label="password"
           name="password"
           id="password"
-          type="password"
+          type={showPassword ? "text" : "password"}
           variant="outlined"
           fullWidth
           value={values.password}
@@ -107,6 +110,19 @@ const RegisterForm = ({
           onBlur={handleBlur}
           error={touched.password && Boolean(errors.password)}
           helperText={touched.password && errors.password}
+          InputProps={{
+            endAdornment: (
+              <InputAdornment position="end">
+                <IconButton
+                  aria-label="toggle password visibility"
+                  onClick={() => setShowPassword((show) => !show)}
+                  edge="end"
+                >
+                  {showPassword ? <Visibility /> : <VisibilityOff />}
+                </IconButton>
+              </InputAdornment>
+            ),
+          }}
         />
 
         <TextField
