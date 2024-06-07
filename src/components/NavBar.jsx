@@ -46,7 +46,7 @@ const NavBar = ({ setPrefersDarkMode, prefersDarkMode }) => {
 
   return (
     <AppBar
-      sx={{ backgroundColor: !prefersDarkMode ? "#a7adba" : "" }}
+      sx={{ backgroundColor: !prefersDarkMode ? "#6a6c73" : "" }}
       position="static"
     >
       <Container maxWidth="xl">

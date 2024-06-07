@@ -5,7 +5,7 @@ import {
   CardHeader,
   IconButton,
   Paper,
-  TextField,
+  // TextField,
   Typography,
 } from "@mui/material";
 import React, { useEffect, useState } from "react";
@@ -15,25 +15,28 @@ import useBlogCalls from "../hooks/useBlogCalls";
 import RemoveRedEyeIcon from "@mui/icons-material/RemoveRedEye";
 import FavoriteIcon from "@mui/icons-material/Favorite";
 import ForumIcon from "@mui/icons-material/Forum";
-import SendIcon from "@mui/icons-material/Send";
+// import SendIcon from "@mui/icons-material/Send";
 import MoreVertIcon from "@mui/icons-material/MoreVert";
 import Menu from "@mui/material/Menu";
 import MenuItem from "@mui/material/MenuItem";
 import UpdateModal from "../components/blog/UpdateModal";
 import DeleteModal from "../components/blog/DeleteModal";
 import { setShowComments } from "../features/blogSlice";
+import CommentForm from "../components/blog/CommentForm";
 
 const BlogDetail = () => {
   const { id } = useParams();
-  const {user} = useSelector((state) => state.auth);
-  const { getDetailRead, getLikeCreate, getPostData, getCreateComment } = useBlogCalls();
-  const { blogsDetail, likes, showComments } = useSelector((state) => state.blog);
-  const [handleComment, setHandleComment] = useState({ post: "", content: "" });
+  const { user } = useSelector((state) => state.auth);
+  const { getDetailRead, getLikeCreate, getPostData, getCreateComment } =
+    useBlogCalls();
+  const { blogsDetail, likes, showComments } = useSelector(
+    (state) => state.blog
+  );
+  
 
   const [openUpdate, setOpenUpdate] = useState(false);
   const [openDelete, setOpenDelete] = useState(false);
 
-  
   const [userLike, setUserLike] = useState();
   const [countOfLikes, setCountOfLikes] = useState();
   const dispatch = useDispatch();
@@ -58,17 +61,17 @@ const BlogDetail = () => {
   useEffect(() => {
     getDetailRead("blogs", id);
     getPostData("blogs");
-}, []); // eslint-disable-line
+  }, []); // eslint-disable-line
 
-useEffect(() => {
-  setUserLike(likes?.didUserLike);
-  setCountOfLikes(likes?.countOfLikes);
-}, [likes]);
+  useEffect(() => {
+    setUserLike(likes?.didUserLike);
+    setCountOfLikes(likes?.countOfLikes);
+  }, [likes]);
 
-useEffect(() => {
-  setUserLike(blogsDetail?.likes?.includes(user?._id));
-  setCountOfLikes(blogsDetail?.likes?.length);
-}, [blogsDetail?.likes]); // eslint-disable-line
+  useEffect(() => {
+    setUserLike(blogsDetail?.likes?.includes(user?._id));
+    setCountOfLikes(blogsDetail?.likes?.length);
+  }, [blogsDetail?.likes]); // eslint-disable-line
 
   // console.log(blogsDetail);
 
@@ -88,10 +91,6 @@ useEffect(() => {
   const handleOpenDelete = () => setOpenDelete(true);
   const handleCloseDelete = () => setOpenDelete(false);
 
-  
-
-  
-
   const handleLikeButton = () => {
     if (user) {
       getLikeCreate(id).then(() => {
@@ -102,7 +101,6 @@ useEffect(() => {
   };
 
   const sendComment = (comment) => {
-      console.log(comment, id)
     getCreateComment("comments", id, comment);
     setTimeout(() => {
       getDetailRead("blogs", id);
@@ -110,7 +108,14 @@ useEffect(() => {
   };
 
   return (
-    <Box sx={{ maxWidth: "750px", margin: "0 auto", padding: "2rem", marginBottom: "5rem" }}>
+    <Box
+      sx={{
+        maxWidth: "750px",
+        margin: "0 auto",
+        padding: "2rem",
+        marginBottom: "5rem",
+      }}
+    >
       <Paper elevation={4} sx={{ padding: "1rem 2rem" }}>
         <CardHeader
           sx={{
@@ -169,10 +174,14 @@ useEffect(() => {
             )
           }
         />
-        <Box sx={{ display: "flex", alignItems: "center", marginBottom: "1rem" }}>
+        <Box
+          sx={{ display: "flex", alignItems: "center", marginBottom: "1rem" }}
+        >
           <Avatar />
           <Box sx={{ marginLeft: "1rem" }}>
-            <Typography variant="subtitle1">{blogsDetail?.userId?.user}</Typography>
+            <Typography variant="subtitle1">
+              {blogsDetail?.userId?.user}
+            </Typography>
             <Typography variant="subtitle2">
               {formatDate(blogsDetail?.createdAt)}
             </Typography>
@@ -190,16 +199,18 @@ useEffect(() => {
         <Box sx={{ display: "flex", justifyContent: "space-between" }}>
           <Box>
             <CardActions disableSpacing>
-              <IconButton onClick={handleLikeButton} aria-label="add to favorites">
-                <FavoriteIcon
-                  sx={{ color: userLike ? "red" : "white" }}
-                />
+              <IconButton
+                onClick={handleLikeButton}
+                aria-label="add to favorites"
+              >
+                <FavoriteIcon sx={{ color: userLike ? "red" : "white" }} />
               </IconButton>
               <Typography>{blogsDetail?.likes?.length}</Typography>
 
-              <IconButton aria-label="comment"
-              onClick={()=> dispatch(setShowComments(!showComments))}>
-              
+              <IconButton
+                aria-label="comment"
+                onClick={() => dispatch(setShowComments(!showComments))}
+              >
                 <ForumIcon sx={{ color: "green" }} />
               </IconButton>
               <Typography>{blogsDetail?.comments?.length}</Typography>
@@ -211,18 +222,27 @@ useEffect(() => {
                 <RemoveRedEyeIcon sx={{ color: "#07aaea" }} />
               </IconButton>
               <Typography>{blogsDetail?.countOfVisitors}</Typography>
-              
             </CardActions>
           </Box>
         </Box>
-      
-        <Box sx={{ marginTop: "2rem" }}>
+
+        {showComments && (
+          <CommentForm
+            comments={blogsDetail?.comments}
+            id={id}
+            sendComment={sendComment}
+            formatDate={formatDate}
+            user={user}
+          />
+        )}
+
+        {/* <Box sx={{ marginTop: "2rem" }}>
           {blogsDetail?.comments?.length === 0 ? (
             <Typography>Be the first to comment...</Typography>
           ) : (
-            blogsDetail?.comments?.map((item) => (
+            blogsDetail?.comments?.map((comment) => (
               <Box
-                key={item?._id}
+                key={comment?.id}
                 sx={{
                   display: "flex",
                   flexDirection: "column",
@@ -245,15 +265,15 @@ useEffect(() => {
                       variant="subtitle1"
                       fontWeight="bold"
                     >
-                      {item?._id?.user}
+                      {comment?.id?.user}
                     </Typography>
                     <Typography variant="caption">
-                      {formatDate(item?.createdAt)}
+                      {formatDate(comment?.createdAt)}
                     </Typography>
                   </Box>
                 </Box>
-                <Typography key={item?._id} variant="body1" sx={{ marginLeft: "3.5rem" }}>
-                  {item?.content}
+                <Typography key={comment?.id} variant="body1" sx={{ marginLeft: "3.5rem" }}>
+                  {comment?.content}
                 </Typography>
                 
               </Box>
@@ -285,7 +305,7 @@ useEffect(() => {
               }}
             />
           </Box>
-        </Box>
+        </Box> */}
       </Paper>
     </Box>
   );

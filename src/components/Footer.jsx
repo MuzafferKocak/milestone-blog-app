@@ -7,7 +7,7 @@ const Footer = ({ prefersDarkMode }) => {
     <Box
       py={3}
       sx={{
-        backgroundColor: !prefersDarkMode ? "#a7adba" : "#292929",
+        backgroundColor: !prefersDarkMode ? "#6a6c73" : "#292929",
         position: "fixed",
         
         bottom: 0,
@@ -16,11 +16,11 @@ const Footer = ({ prefersDarkMode }) => {
       }}
     >
       <Typography
-        sx={{ color: prefersDarkMode ? "gray" : "black" }}
+        sx={{ color: prefersDarkMode ? "grey" : "black" }}
         fontSize={"14px"}
       >
         Copyright © {currentYear} by{" "}
-        <span style={{ color: prefersDarkMode ? "#90caf9" : "black" }}>
+        <span style={{ color: prefersDarkMode ? "#90caf9" : "#6a88d8" }}>
           MeK
         </span>
       </Typography>

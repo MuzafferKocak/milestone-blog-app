@@ -1,7 +1,7 @@
 import { fetchFail, fetchStart } from "../features/authSlice";
 import { useDispatch } from "react-redux";
 import useAxios from "./useAxios";
-import { getSuccess, getLikeSuccess } from "../features/blogSlice";
+import { getSuccess, getLikeSuccess, paginationSuccess } from "../features/blogSlice";
 import { toastErrorNotify, toastSuccessNotify } from "../helper/ToastNotify";
 
 const useBlogCalls = () => {
@@ -57,6 +57,7 @@ const useBlogCalls = () => {
     }
   };
   const getCreateComment = async (path, id, comment) => {
+    console.log("Function called with parameters:", { path, id, comment });
     dispatch(fetchStart());
     try {
       const { data } = await axiosToken.get(`/${path}/${id}/`, comment);
@@ -105,6 +106,20 @@ const useBlogCalls = () => {
     }
   };
 
+  const getBlogsPage = async (page, limit) => {
+    console.log(page)
+    dispatch(fetchStart());
+    try {
+      const { data } = await axiosToken(`/blogs?page=${page}&limit=${limit}`);
+      dispatch(paginationSuccess(data));
+    } catch (error) {
+      dispatch(fetchFail());
+      toastErrorNotify(`Failed to load`);
+    }
+  }
+
+  
+
   return {
     getPostData,
     getLikeCreate,
@@ -112,6 +127,7 @@ const useBlogCalls = () => {
     getNewBlogCreate,
     getDetailRead,
     getCreateComment,
+    getBlogsPage,
     deleteBlog,
   };
 };

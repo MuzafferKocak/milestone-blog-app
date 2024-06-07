@@ -8,6 +8,7 @@ import AppRouter from "./router/AppRouter";
 import store, { persistor } from "./app/store";
 import Footer from "./components/Footer";
 import { BrowserRouter as Router } from "react-router-dom";
+import CssBaseline from "@mui/material/CssBaseline"
 
 function App() {
   const [prefersDarkMode, setPrefersDarkMode] = useState(true);
@@ -27,6 +28,7 @@ function App() {
       <Provider store={store}>
         <PersistGate loading={null} persistor={persistor}>
           <Router>
+          <CssBaseline />
             <Navbar
               setPrefersDarkMode={setPrefersDarkMode}
               prefersDarkMode={prefersDarkMode}

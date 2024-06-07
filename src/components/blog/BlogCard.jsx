@@ -39,8 +39,8 @@ const BlogCard = ({
       ? getLikeCreate(id).then(() => getPostData("blogs"))
       : navigate("/login");
   };
-  console.log(id);
-  console.log(user);
+  // console.log(id);
+  // console.log(user);
 
   const handleCommentIcon = (id) => {
     console.log(id)
