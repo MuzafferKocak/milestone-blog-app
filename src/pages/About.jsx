@@ -6,6 +6,8 @@ import GitHubIcon from '@mui/icons-material/GitHub';
 import LinkedInIcon from '@mui/icons-material/LinkedIn';
 import Logo from "../assets/logo1.png"
 import { Box } from "@mui/material";
+import { Link } from "react-router-dom";
+import { blue, grey } from "@mui/material/colors";
 
 const About = () => {
   return (
@@ -42,9 +44,14 @@ const About = () => {
           image={Logo}
           alt="image"
         />
-        <Box sx={{ display: "flex", gap: "1.5rem" }}>
-          <GitHubIcon/>
-          <LinkedInIcon/>
+        <Box sx={{ display: "flex", gap: "2.5rem" }}>
+          <Link to="https://www.linkedin.com/in/muzaffer-kocak/" target="_blank">
+          <LinkedInIcon sx={{ fontSize: '56px', color: blue[500]  }}/>
+          </Link>
+          <Link to="https://github.com/MuzafferKocak" target="_blank">
+
+          <GitHubIcon sx={{ fontSize: '50px', color: grey[500] }}/>
+          </Link>
         </Box>
       </CardContent>
     </Card>

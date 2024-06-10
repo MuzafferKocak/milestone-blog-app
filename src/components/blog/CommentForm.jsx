@@ -60,7 +60,7 @@ const CommentForm = ({ comments, id, sendComment, formatDate, user }) => {
             onChange={(e) => setHandleComment({ post: id, content: e.target.value })}
             value={handleComment.comment}
             rows={4}
-            sx={{ width: "35rem" }}
+            sx={{ width: "100%" }}
             placeholder="to Comment"
             InputProps={{
               endAdornment: (

@@ -32,7 +32,6 @@ const BlogDetail = () => {
   const { blogsDetail, likes, showComments } = useSelector(
     (state) => state.blog
   );
-  
 
   const [openUpdate, setOpenUpdate] = useState(false);
   const [openDelete, setOpenDelete] = useState(false);
@@ -235,77 +234,6 @@ const BlogDetail = () => {
             user={user}
           />
         )}
-
-        {/* <Box sx={{ marginTop: "2rem" }}>
-          {blogsDetail?.comments?.length === 0 ? (
-            <Typography>Be the first to comment...</Typography>
-          ) : (
-            blogsDetail?.comments?.map((comment) => (
-              <Box
-                key={comment?.id}
-                sx={{
-                  display: "flex",
-                  flexDirection: "column",
-                  gap: 1,
-                  margin: "1rem auto",
-                }}
-              >
-                <Box
-                  sx={{
-                    display: "flex",
-                    flexDirection: "row",
-                    alignItems: "center",
-                    gap: 1,
-                  }}
-                >
-                  <Avatar />
-                  <Box sx={{ display: "flex", flexDirection: "column", gap: 0.5 }}>
-                    <Typography
-                      sx={{ color: "#ffa000" }}
-                      variant="subtitle1"
-                      fontWeight="bold"
-                    >
-                      {comment?.id?.user}
-                    </Typography>
-                    <Typography variant="caption">
-                      {formatDate(comment?.createdAt)}
-                    </Typography>
-                  </Box>
-                </Box>
-                <Typography key={comment?.id} variant="body1" sx={{ marginLeft: "3.5rem" }}>
-                  {comment?.content}
-                </Typography>
-                
-              </Box>
-            ))
-          )}
-          <Box sx={{ marginTop: "2rem" }}>
-            <TextField
-              id="outlined-multiline-static"
-              label="Comment"
-              multiline
-              onChange={(e) => setHandleComment({ post: id, content: e.target.value })}
-              value={handleComment.content}
-              rows={4}
-              sx={{ width: "35rem" }}
-              placeholder="to Comment"
-              InputProps={{
-                endAdornment: (
-                  <IconButton
-                  
-                    onClick={() => {
-                      sendComment(handleComment);
-                      setHandleComment({ post: id, content: "" });
-                    }}
-                    sx={{ color: "#ffa000" }}
-                  >Send
-                    <SendIcon />
-                  </IconButton>
-                ),
-              }}
-            />
-          </Box>
-        </Box> */}
       </Paper>
     </Box>
   );

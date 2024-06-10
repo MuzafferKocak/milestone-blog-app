@@ -74,7 +74,7 @@ const Dashboard = () => {
           }}
         />
       </Stack>
-      <div style={{ paddingBottom: "8rem" }}></div>
+      <div style={{ paddingBottom: "7rem" }}></div>
     </Container>
   );
 };
