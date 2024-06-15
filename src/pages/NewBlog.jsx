@@ -1,29 +1,22 @@
-import { Box, Grid } from "@mui/material"
-import NewBlogCard from "../components/blog/NewBlogCard"
+import { Box } from "@mui/material";
+import NewBlogCard from "../components/blog/NewBlogCard";
 
 const NewBlog = () => {
   return (
-    <Box>
-      <Grid 
-        sx={{
-          display: "flex",
-          justifyContent: "center",
-          alignItems: "center",
-          flexDirection: "row",
-          marginTop: "3rem",
-          gap: 5,
-          marginBottom: "5rem",
-        }}
-        container
-      >
-        <Grid sx={{ display: "flex" }}>
-          <Box sx={{ marginRight: "2rem", width:"25rem" }}>
-            <NewBlogCard />
-          </Box>
-        </Grid>
-      </Grid>
+    <Box
+      container
+      sx={{
+        display: "flex",
+        justifyContent: "center",
+        alignItems: "center",
+        flexDirection: "column",
+        marginTop: "1.5rem",
+        marginBottom: "5.5rem",
+      }}
+    >
+      <NewBlogCard />
     </Box>
-  )
-}
+  );
+};
 
-export default NewBlog
+export default NewBlog;
