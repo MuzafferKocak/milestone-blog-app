@@ -72,7 +72,7 @@ const BlogCard = ({
         alt="Image"
       />
       <CardContent>
-        <Typography variant="h6" color="#ffa000">
+        <Typography variant="h6" color="#FF6969">
           {title}
         </Typography>
         <Typography
@@ -90,19 +90,19 @@ const BlogCard = ({
       >
         <IconButton aria-label="add to favorites" onClick={handleLikeButton}>
           <FavoriteIcon
-            sx={{ color: likes.includes(user?._id) ? "red" : "white" }}
+            sx={{ color: likes.includes(user?._id) ? "red" : "#C7C8CC" }}
           />
         </IconButton>
         <Typography>{likeCount}</Typography>
         <IconButton
-          sx={{ color: "green" }}
+          sx={{ color: "#40A578" }}
           onClick={() => (user ? handleCommentIcon(id) : navigate("/login"))}
           aria-label="add to favorites"
         >
           <ForumIcon />
         </IconButton>
         <Typography>{commentCount}</Typography>
-        <IconButton sx={{ color: "#07aaea" }} aria-label="add to favorites">
+        <IconButton sx={{ color: "#FD9B63" }} aria-label="add to favorites">
           <RemoveRedEyeIcon />
         </IconButton>
         <Typography>{postView}</Typography>

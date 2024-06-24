@@ -194,7 +194,7 @@ const NewBlogCard = () => {
             />
 
             <IconButton
-              sx={{ color: "#ffb600", marginTop: "1.5rem" }}
+              sx={{ color: "#FF7F3E", marginTop: "1.5rem" }}
               type="submit"
               onClick={() => {
                 submitBlog();

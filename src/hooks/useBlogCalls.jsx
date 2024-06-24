@@ -14,7 +14,7 @@ const useBlogCalls = () => {
       const { data } = await axiosPublic.get(`/${path}/`);
       //   console.log("Fetched Data:", data.data);
       const datas = data.data;
-      console.log(datas);
+      // console.log(datas);
       dispatch(getSuccess({ data: datas, path }));
     } catch (error) {
       toastErrorNotify("Relevant data cannot be accessed");
@@ -71,17 +71,7 @@ const useBlogCalls = () => {
     }
   };
 
-  // const getLikeCreate = async (path, id, likes) => {
-  //   dispatch(fetchStart());
-  //   try {
-  //     const { data } = await axiosToken.post(`/${path}/${id}/postLike`  );
-
-  //     dispatch(getSuccess({ data: data.data, path: likes }));
-  //   } catch (error) {
-  //     toastErrorNotify("Operations failed, check your internet connection");
-  //     dispatch(fetchFail());
-  //   }
-  // };
+  
 
   const getLikeCreate = async (id) => {
     console.log(id);
@@ -97,7 +87,7 @@ const useBlogCalls = () => {
     dispatch(fetchStart());
     try {
       await axiosToken.delete(`/${path}/${id}/`);
-      console.log(path, id);
+      // console.log(path, id);
       getPostData("blogs");
       toastSuccessNotify("Blog successfully deleted 👌");
     } catch (error) {

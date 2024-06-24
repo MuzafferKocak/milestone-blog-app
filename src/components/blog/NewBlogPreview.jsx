@@ -38,7 +38,7 @@ const NewBlogPreview = ({ content, title, image }) => {
           alt="image"
         />
         <Box sx={{ marginLeft: "1rem", marginTop: "1.5rem" }}>
-          <Typography variant="h6" color="#ffa000">
+          <Typography variant="h6" color="#FF6969">
             {content ? content : "Blog Title"}
           </Typography>
         </Box>

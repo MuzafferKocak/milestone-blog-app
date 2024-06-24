@@ -6,7 +6,7 @@ import SendIcon from "@mui/icons-material/Send";
 const CommentForm = ({ comments, id, sendComment, formatDate, user }) => {
   const [handleComment, setHandleComment] = useState({ post: id, content: "" });
 
-  
+  console.log(sendComment)
 
   return (
     <Box sx={{ marginTop: "2rem" }}>
@@ -67,9 +67,9 @@ const CommentForm = ({ comments, id, sendComment, formatDate, user }) => {
                 <IconButton
                   onClick={() => {
                     sendComment(handleComment);
-                    setHandleComment({ post: id, content: "" });
+                    setHandleComment({ post: id, content: " " });
                   }}
-                  sx={{ color: "#ffa000" }}
+                  sx={{ color: "#FF7F3E" }}
                 >
                   Send
                   <SendIcon />

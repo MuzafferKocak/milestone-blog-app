@@ -123,7 +123,7 @@ const BlogDetail = () => {
             alignItems: "center",
             marginBottom: "1rem",
             top: 0,
-            color: "#ffa000",
+            color: "#FF6969",
           }}
           title={<Typography variant="h4">{blogsDetail?.title}</Typography>}
           action={
@@ -202,7 +202,7 @@ const BlogDetail = () => {
                 onClick={handleLikeButton}
                 aria-label="add to favorites"
               >
-                <FavoriteIcon sx={{ color: userLike ? "red" : "white" }} />
+                <FavoriteIcon sx={{ color: userLike ? "red" : "#C7C8CC" }} />
               </IconButton>
               <Typography>{blogsDetail?.likes?.length}</Typography>
 
@@ -210,7 +210,7 @@ const BlogDetail = () => {
                 aria-label="comment"
                 onClick={() => dispatch(setShowComments(!showComments))}
               >
-                <ForumIcon sx={{ color: "green" }} />
+                <ForumIcon sx={{ color: "#40A578" }} />
               </IconButton>
               <Typography>{blogsDetail?.comments?.length}</Typography>
             </CardActions>
@@ -218,7 +218,7 @@ const BlogDetail = () => {
           <Box>
             <CardActions disableSpacing>
               <IconButton aria-label="visibility">
-                <RemoveRedEyeIcon sx={{ color: "#07aaea" }} />
+                <RemoveRedEyeIcon sx={{ color: "#FD9B63" }} />
               </IconButton>
               <Typography>{blogsDetail?.countOfVisitors}</Typography>
             </CardActions>

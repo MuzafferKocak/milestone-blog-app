@@ -7,7 +7,7 @@ const Footer = ({ prefersDarkMode }) => {
     <Box
       py={3}
       sx={{
-        backgroundColor: !prefersDarkMode ? "#6a6c73" : "#292929",
+        backgroundColor: !prefersDarkMode ? "#C7C8CC" : "#292929",
         position: "fixed",
         
         bottom: 0,
