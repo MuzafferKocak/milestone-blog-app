@@ -34,7 +34,7 @@ const CommentForm = ({ comments, id, sendComment, formatDate, user }) => {
               <Avatar />
               <Box sx={{ display: "flex", flexDirection: "column", gap: 0.5 }}>
                 <Typography
-                  sx={{ color: "#ffa000" }}
+                  sx={{ color: "#FF7F3E" }}
                   variant="subtitle1"
                   fontWeight="bold"
                 >
