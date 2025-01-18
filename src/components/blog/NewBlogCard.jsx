@@ -31,15 +31,15 @@ const NewBlogCard = () => {
   const [selectedCategory, setSelectedCategory] = useState(null);
   const navigate = useNavigate();
 
-  const { title, content, image } = newBlogInfo; // eslint-disable-lin
+  const { title, content, image } = newBlogInfo; 
 
   const { getCategories, getNewBlogCreate, getPostData } = useBlogCalls();
   const { categories } = useSelector((state) => state.blog);
+  const { user } = useSelector((state) => state.auth);
   // console.log(categories);
 
   useEffect(() => {
     getCategories("categories");
-    // console.log("Categories", categories);
   }, []); // eslint-disable-line
 
   const handleFromChange = (e) => {
@@ -53,7 +53,11 @@ const NewBlogCard = () => {
   };
 
   const submitBlog = () => {
-    getNewBlogCreate("blogs", newBlogInfo);
+    const newBlogData = {
+      ...newBlogInfo,
+      userId: user?._id,
+    }
+    getNewBlogCreate("blogs", newBlogData);
     getPostData("blogs");
 
     // console.log("New Blog eklendi", newBlogInfo);

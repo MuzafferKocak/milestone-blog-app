@@ -6,14 +6,16 @@ import SendIcon from "@mui/icons-material/Send";
 const CommentForm = ({ comments, id, sendComment, formatDate, user }) => {
   const [handleComment, setHandleComment] = useState({ post: id, content: "" });
 
-  console.log(sendComment)
+  // console.log(sendComment)
+
+  
 
   return (
     <Box sx={{ marginTop: "2rem" }}>
       {comments?.length === 0 ? (
         <Typography>Be the first to comment...</Typography>
       ) : (
-        comments?.slice().reverse().map((comment) => (
+        comments?.map((comment) => (
           <Box
             key={comment._id}
             sx={{
@@ -38,14 +40,14 @@ const CommentForm = ({ comments, id, sendComment, formatDate, user }) => {
                   variant="subtitle1"
                   fontWeight="bold"
                 >
-                  {comment?.userId.username || "Unknown User"}
+                  {comment?.userId?.username}
                 </Typography>
                 <Typography variant="caption">
                   {formatDate(comment?.createdAt)}
                 </Typography>
               </Box>
             </Box>
-            <Typography key={comment?.id} variant="body1" sx={{ marginLeft: "3.5rem" }}>
+            <Typography key={comment?._id} variant="body1" sx={{ marginLeft: "3.5rem" }}>
               {comment?.comment}
             </Typography>
           </Box>
@@ -57,17 +59,18 @@ const CommentForm = ({ comments, id, sendComment, formatDate, user }) => {
             id="outlined-multiline-static"
             label="Comment"
             multiline
-            onChange={(e) => setHandleComment({ post: id, content: e.target.value })}
-            value={handleComment.comment}
+            onChange={(e) => setHandleComment( {post: id, content: e.target.value} )}
+            value={handleComment.content}
+            type="text"
             rows={4}
             sx={{ width: "100%" }}
-            placeholder="to Comment"
+            placeholder="Type your comment..."
             InputProps={{
               endAdornment: (
                 <IconButton
                   onClick={() => {
                     sendComment(handleComment);
-                    setHandleComment({ post: id, content: " " });
+                    setHandleComment({ post: id, content: "" });
                   }}
                   sx={{ color: "#FF7F3E" }}
                 >

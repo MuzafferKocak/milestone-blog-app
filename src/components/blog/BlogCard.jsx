@@ -30,20 +30,21 @@ const BlogCard = ({
   const navigate = useNavigate();
   const { user } = useSelector((state) => state.auth);
 
-  const likeCount = Array.isArray(likes) ? likes.length : likes || 0;
+  const likeCount = Array.isArray(likes) ? likes.length : 0;
   const commentCount = Array.isArray(comments) ? comments.length : 0;
   const postView = countOfVisitors || 0;
 
-  const handleLikeButton = () => {
-    user
-      ? getLikeCreate(id).then(() => getPostData("blogs"))
-      : navigate("/login");
+  const handleLikeButton = async () => {
+    if (user) {
+      await getLikeCreate(id, user.username);
+      getPostData("blogs");
+    } else {
+      navigate("/login");
+    }
   };
-  // console.log(id);
-  // console.log(user);
 
   const handleCommentIcon = (id) => {
-    console.log(id)
+    console.log(id);
     getDetailRead("blogs", id);
     navigate(`/blogdetail/${id}`);
   };
@@ -90,7 +91,12 @@ const BlogCard = ({
       >
         <IconButton aria-label="add to favorites" onClick={handleLikeButton}>
           <FavoriteIcon
-            sx={{ color: likes.includes(user?._id) ? "red" : "#C7C8CC" }}
+            sx={{
+              color:
+                Array.isArray(likes) && likes.includes(user?.username)
+                  ? "red"
+                  : "#C7C8CC",
+            }}
           />
         </IconButton>
         <Typography>{likeCount}</Typography>

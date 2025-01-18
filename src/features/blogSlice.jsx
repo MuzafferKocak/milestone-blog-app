@@ -40,16 +40,15 @@ const blogSlice = createSlice({
       state.blogs = data;
       state.totalPages = total;
     },
-    
+
     getLikeSuccess: (state, { payload }) => {
       state.loading = false;
       state.likes = payload;
     },
     setShowComments: (state, { payload }) => {
-      state.showComments = payload;
+      state.loading = false;
+      state.showComments = [...state.comments, payload];
     },
-
-    
 
     fetchFail: (state) => {
       state.loading = false;

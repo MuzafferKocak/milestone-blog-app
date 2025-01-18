@@ -1,7 +1,12 @@
 import { fetchFail, fetchStart } from "../features/authSlice";
 import { useDispatch } from "react-redux";
 import useAxios from "./useAxios";
-import { getSuccess, getLikeSuccess, paginationSuccess } from "../features/blogSlice";
+import {
+  getSuccess,
+  getLikeSuccess,
+  paginationSuccess,
+  setShowComments,
+} from "../features/blogSlice";
 import { toastErrorNotify, toastSuccessNotify } from "../helper/ToastNotify";
 
 const useBlogCalls = () => {
@@ -12,7 +17,7 @@ const useBlogCalls = () => {
     dispatch(fetchStart());
     try {
       const { data } = await axiosPublic.get(`/${path}/`);
-      //   console.log("Fetched Data:", data.data);
+      // console.log("Fetched Data:", data.data);
       const datas = data.data;
       // console.log(datas);
       dispatch(getSuccess({ data: datas, path }));
@@ -50,34 +55,42 @@ const useBlogCalls = () => {
       const urlPath = path === "blogs" ? "blogsDetail" : path;
 
       const { data } = await axiosToken.get(`/${path}/${id}/`);
-      //   console.log("Fetched Data:", data.data);
+      // console.log("Fetched Data:", data.data);
       dispatch(getSuccess({ data: data.data, path: urlPath }));
+      dispatch(setShowComments(data.data.comments));
     } catch (error) {
       dispatch(fetchFail());
     }
   };
-  const getCreateComment = async (path, id, comment) => {
-    console.log("Function called with parameters:", { path, id, comment });
+  const getCreateComment = async (commentContent, blogId, userId) => {
+    // console.log("Sending Comment Data:", { blogId, userId, commentContent });
     dispatch(fetchStart());
     try {
-      const { data } = await axiosToken.get(`/${path}/${id}/`, comment);
-
-      dispatch(getSuccess({ data: data.data, path: comment }));
-
+      const { data } = await axiosToken.post(`/comments`, {
+        userId,
+        blogId,
+        comment: commentContent,
+      });
+      // console.log(data);
+      // console.log("Comment Function Parameters:", { blogId, userId, commentContent });
+      dispatch(setShowComments(data));
+      console.log(data);
       toastSuccessNotify("Your comment has been sent successfully 👌");
     } catch (error) {
+      console.log(error);
       toastErrorNotify("An error occurred while submitting your comment. 🤨");
       dispatch(fetchFail());
     }
   };
 
-  
-
-  const getLikeCreate = async (id) => {
-    console.log(id);
+  const getLikeCreate = async (id, username) => {
+    // console.log(id);
     try {
-      const { data } = await axiosToken.post(`/blogs/${id}/postLike`, {});
+      const { data } = await axiosToken.post(`/blogs/${id}/like`, { username });
+      // console.log("Backend response:", data);
+
       dispatch(getLikeSuccess(data));
+      // console.log("State after dispatch:", data);
     } catch (error) {
       console.log(error);
     }
@@ -97,7 +110,7 @@ const useBlogCalls = () => {
   };
 
   const getBlogsPage = async (page, limit) => {
-    console.log(page)
+    // console.log(page);
     dispatch(fetchStart());
     try {
       const { data } = await axiosToken(`/blogs?page=${page}&limit=${limit}`);
@@ -106,9 +119,7 @@ const useBlogCalls = () => {
       dispatch(fetchFail());
       toastErrorNotify(`Failed to load`);
     }
-  }
-
-  
+  };
 
   return {
     getPostData,

@@ -5,7 +5,6 @@ import {
   CardHeader,
   IconButton,
   Paper,
-  // TextField,
   Typography,
 } from "@mui/material";
 import React, { useEffect, useState } from "react";
@@ -15,7 +14,6 @@ import useBlogCalls from "../hooks/useBlogCalls";
 import RemoveRedEyeIcon from "@mui/icons-material/RemoveRedEye";
 import FavoriteIcon from "@mui/icons-material/Favorite";
 import ForumIcon from "@mui/icons-material/Forum";
-// import SendIcon from "@mui/icons-material/Send";
 import MoreVertIcon from "@mui/icons-material/MoreVert";
 import Menu from "@mui/material/Menu";
 import MenuItem from "@mui/material/MenuItem";
@@ -27,17 +25,15 @@ import CommentForm from "../components/blog/CommentForm";
 const BlogDetail = () => {
   const { id } = useParams();
   const { user } = useSelector((state) => state.auth);
-  const { getDetailRead, getLikeCreate, getPostData, getCreateComment } =
+  const { getDetailRead, getPostData, getLikeCreate, getCreateComment } =
     useBlogCalls();
-  const { blogsDetail, likes, showComments } = useSelector(
-    (state) => state.blog
-  );
+  const { blogsDetail, showComments } = useSelector((state) => state.blog);
 
   const [openUpdate, setOpenUpdate] = useState(false);
   const [openDelete, setOpenDelete] = useState(false);
 
-  const [userLike, setUserLike] = useState();
-  const [countOfLikes, setCountOfLikes] = useState();
+  const [userLike, setUserLike] = useState(false);
+  const [countOfLikes, setCountOfLikes] = useState(0);
   const dispatch = useDispatch();
 
   const formatDate = (dateString) => {
@@ -60,19 +56,23 @@ const BlogDetail = () => {
   useEffect(() => {
     getDetailRead("blogs", id);
     getPostData("blogs");
-  }, []); // eslint-disable-line
+  }, [id]); // eslint-disable-line
 
   useEffect(() => {
-    setUserLike(likes?.didUserLike);
-    setCountOfLikes(likes?.countOfLikes);
-  }, [likes]);
+    if (blogsDetail?.likes) {
+      setUserLike(blogsDetail.likes.includes(user?.username));
+      setCountOfLikes(blogsDetail.likes.length);
+    }
+  }, [blogsDetail, user?.username]);
 
-  useEffect(() => {
-    setUserLike(blogsDetail?.likes?.includes(user?._id));
-    setCountOfLikes(blogsDetail?.likes?.length);
-  }, [blogsDetail?.likes]); // eslint-disable-line
-
-  // console.log(blogsDetail);
+  const handleLikeButton = async () => {
+    if (user) {
+      await getLikeCreate(id, user.username).then(() => {
+        getDetailRead("blogs", id);
+        // getPostData("blogs");
+      });
+    }
+  };
 
   const [anchorEl, setAnchorEl] = useState(null);
 
@@ -90,20 +90,22 @@ const BlogDetail = () => {
   const handleOpenDelete = () => setOpenDelete(true);
   const handleCloseDelete = () => setOpenDelete(false);
 
-  const handleLikeButton = () => {
-    if (user) {
-      getLikeCreate(id).then(() => {
-        getDetailRead("blogs", id);
-        getPostData("blogs");
-      });
-    }
-  };
+  const sendComment = async (comment) => {
+    const blogId = comment.post;
+    const userId = user?._id;
+    const commentContent = comment.content;
+    if (!userId) {
+      console.error("User ID is undefined. Please log in.");
 
-  const sendComment = (comment) => {
-    getCreateComment("comments", id, comment);
-    setTimeout(() => {
+      return;
+    }
+
+    try {
+      await getCreateComment(commentContent, blogId, userId);
       getDetailRead("blogs", id);
-    }, 100);
+    } catch (error) {
+      console.error("Error while sending comment:", error);
+    }
   };
 
   return (
@@ -202,9 +204,13 @@ const BlogDetail = () => {
                 onClick={handleLikeButton}
                 aria-label="add to favorites"
               >
-                <FavoriteIcon sx={{ color: userLike ? "red" : "#C7C8CC" }} />
+                <FavoriteIcon
+                  sx={{
+                    color: userLike ? "red" : "#C7C8CC",
+                  }}
+                />
               </IconButton>
-              <Typography>{blogsDetail?.likes?.length}</Typography>
+              <Typography>{countOfLikes}</Typography>
 
               <IconButton
                 aria-label="comment"

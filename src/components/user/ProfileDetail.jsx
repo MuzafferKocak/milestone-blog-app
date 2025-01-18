@@ -9,8 +9,8 @@ import { useSelector } from "react-redux"
 const ProfileDetail = () => {
   const userState = useSelector((state) => state.auth)
   const currentUser = userState.user
-  console.log(userState);
-  console.log(currentUser);
+//   console.log(userState);
+//   console.log(currentUser);
 
   return (
     <Card sx={{ maxWidth: "700px", margin: "0 auto" }}>
@@ -18,7 +18,7 @@ const ProfileDetail = () => {
         sx={{ color: "#bd0e0e" }}
         avatar={
           <Avatar
-            sx={{ width: "7rem", height: "7rem" }}
+            sx={{ width: "6rem", height: "6rem" }}
             src={currentUser?.image}
           />
         }
@@ -28,7 +28,7 @@ const ProfileDetail = () => {
           </Typography>
         }
         subheader={
-          <Typography variant="h6" color="text.secondary">
+          <Typography variant="h5" color="text.secondary">
             {currentUser?.username}
           </Typography>
         }
