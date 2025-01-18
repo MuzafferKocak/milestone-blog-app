@@ -14,6 +14,7 @@ import { Button } from "@mui/material";
 import useBlogCalls from "../../hooks/useBlogCalls";
 import { useNavigate } from "react-router-dom";
 import { useSelector } from "react-redux";
+import { useState } from "react";
 
 const BlogCard = ({
   id,
@@ -26,25 +27,29 @@ const BlogCard = ({
   createdAt,
   comments,
 }) => {
-  const { getLikeCreate, getPostData, getDetailRead } = useBlogCalls();
+  const { getLikeCreate, getDetailRead } = useBlogCalls();
   const navigate = useNavigate();
   const { user } = useSelector((state) => state.auth);
 
-  const likeCount = Array.isArray(likes) ? likes.length : 0;
+  const [isLiked, setIsLiked] = useState(likes?.includes(user?.username));
+  const [likeCount, setLikeCount] = useState(likes.length || 0);
+
   const commentCount = Array.isArray(comments) ? comments.length : 0;
   const postView = countOfVisitors || 0;
 
   const handleLikeButton = async () => {
     if (user) {
       await getLikeCreate(id, user.username);
-      getPostData("blogs");
+      setIsLiked(!isLiked);
+      setLikeCount(likeCount + (isLiked ? -1 : 1));
+      // getPostData("blogs");
     } else {
       navigate("/login");
     }
   };
 
   const handleCommentIcon = (id) => {
-    console.log(id);
+    // console.log(id);
     getDetailRead("blogs", id);
     navigate(`/blogdetail/${id}`);
   };
@@ -92,10 +97,7 @@ const BlogCard = ({
         <IconButton aria-label="add to favorites" onClick={handleLikeButton}>
           <FavoriteIcon
             sx={{
-              color:
-                Array.isArray(likes) && likes.includes(user?.username)
-                  ? "red"
-                  : "#C7C8CC",
+              color: isLiked ? "red" : "#C7C8CC",
             }}
           />
         </IconButton>
