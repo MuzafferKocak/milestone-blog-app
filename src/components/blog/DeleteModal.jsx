@@ -1,17 +1,15 @@
-import Backdrop from "@mui/material/Backdrop"
-import Box from "@mui/material/Box"
-import Modal from "@mui/material/Modal"
-import Fade from "@mui/material/Fade"
-import Typography from "@mui/material/Typography"
-import { Button } from "@mui/material"
-import useBlogCalls from "../../hooks/useBlogCalls"
-import { useNavigate } from "react-router-dom"
+import Backdrop from "@mui/material/Backdrop";
+import Box from "@mui/material/Box";
+import Modal from "@mui/material/Modal";
+import Fade from "@mui/material/Fade";
+import Typography from "@mui/material/Typography";
+import { Button } from "@mui/material";
+import useBlogCalls from "../../hooks/useBlogCalls";
+import { useNavigate } from "react-router-dom";
 
 const DeleteModal = ({ openDelete, handleCloseDelete, id }) => {
-  const { deleteBlog } = useBlogCalls()
-  const navigate = useNavigate()
-
-  console.log(id)
+  const { deleteBlog } = useBlogCalls();
+  const navigate = useNavigate();
 
   const style = {
     position: "absolute",
@@ -28,12 +26,12 @@ const DeleteModal = ({ openDelete, handleCloseDelete, id }) => {
     border: "2px solid #000",
     boxShadow: 24,
     p: 4,
-  }
+  };
 
   const deleteBLog = () => {
-    deleteBlog("blogs", id)
-    navigate("/")
-  }
+    deleteBlog("blogs", id);
+    navigate("/");
+  };
 
   return (
     <div>
@@ -53,19 +51,26 @@ const DeleteModal = ({ openDelete, handleCloseDelete, id }) => {
         <Fade in={openDelete}>
           <Box sx={style}>
             <Typography variant="h6" component="h2" sx={{ mb: 2 }}>
-              Are you sure you
-              want to delete it?
+              Are you sure you want to delete it?
             </Typography>
             <Box>
               <Button
-                sx={{ color: "green", backgroundColor: "#74786b", margin: "2rem" }}
+                sx={{
+                  color: "green",
+                  backgroundColor: "#74786b",
+                  margin: "2rem",
+                }}
                 variant="outlined"
                 onClick={handleCloseDelete}
               >
                 Cancel
               </Button>
               <Button
-                sx={{ color: "red", backgroundColor: "#74786b", margin: "2rem" }}
+                sx={{
+                  color: "red",
+                  backgroundColor: "#74786b",
+                  margin: "2rem",
+                }}
                 variant="outlined"
                 onClick={deleteBLog}
               >
@@ -76,7 +81,7 @@ const DeleteModal = ({ openDelete, handleCloseDelete, id }) => {
         </Fade>
       </Modal>
     </div>
-  )
-}
+  );
+};
 
-export default DeleteModal
+export default DeleteModal;

@@ -44,7 +44,6 @@ const useBlogCalls = () => {
 
       toastSuccessNotify("Blog Posted Successfully 👌");
     } catch (error) {
-      console.error("Server Error:", error);
       toastErrorNotify("Blog post failed please try again 🤨");
       dispatch(fetchFail());
     }
@@ -74,7 +73,7 @@ const useBlogCalls = () => {
       // console.log(data);
       // console.log("Comment Function Parameters:", { blogId, userId, commentContent });
       dispatch(setShowComments(data));
-      console.log(data);
+      // console.log(data);
       toastSuccessNotify("Your comment has been sent successfully 👌");
     } catch (error) {
       console.log(error);
@@ -104,7 +103,14 @@ const useBlogCalls = () => {
       getPostData("blogs");
       toastSuccessNotify("Blog successfully deleted 👌");
     } catch (error) {
-      toastErrorNotify("An error occurred while deleting the blog 🤨");
+      
+      if(error.response){
+        const errorMessage = error.response.data
+        toastErrorNotify(errorMessage)
+      }else{
+
+        toastErrorNotify("An error occurred while deleting the blog 🤨");
+      }
       dispatch(fetchFail());
     }
   };
