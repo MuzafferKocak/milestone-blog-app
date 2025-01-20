@@ -60,7 +60,6 @@ const NewBlogCard = () => {
     getNewBlogCreate("blogs", newBlogData);
     getPostData("blogs");
 
-    // console.log("New Blog eklendi", newBlogInfo);
   };
 
   const isFormValid = () => {
