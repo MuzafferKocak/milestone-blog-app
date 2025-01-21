@@ -13,14 +13,14 @@ const Dashboard = () => {
   const handleChangePage = (e,page) => {
     setCurrentPage(page);
   };
+  useEffect(() => {
+    getPostData("blogs");
+  }, []); // eslint-disable-line
 
   useEffect(() => {
     getBlogsPage(currentPage, 6);
   }, [currentPage]); // eslint-disable-line
 
-  useEffect(() => {
-    getPostData("blogs");
-  }, []); // eslint-disable-line
 
   return (
     <Container>
