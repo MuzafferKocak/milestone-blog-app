@@ -33,7 +33,7 @@ const NewBlogCard = () => {
 
   const { title, content, image } = newBlogInfo; 
 
-  const { getCategories, getNewBlogCreate, getPostData } = useBlogCalls();
+  const { getCategories, getNewBlogCreate, getPostData, getBlogsPage } = useBlogCalls();
   const { categories } = useSelector((state) => state.blog);
   const { user } = useSelector((state) => state.auth);
   // console.log(categories);
@@ -58,7 +58,8 @@ const NewBlogCard = () => {
       userId: user?._id,
     }
     getNewBlogCreate("blogs", newBlogData);
-    getPostData("blogs");
+    // getPostData("blogs");
+    getBlogsPage(1, 6)
 
   };
 
