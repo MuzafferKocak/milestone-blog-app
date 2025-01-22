@@ -16,7 +16,9 @@ const useBlogCalls = () => {
   const getPostData = async (path) => {
     dispatch(fetchStart());
     try {
-      const { data } = await axiosPublic.get(`https://my-blog-api-alpha.vercel.app/${path}/`);
+      const { data } = await axiosPublic.get(`/${path}/`, {
+        withCredentials: true,
+      });
       console.log("Fetched Data:", data.data);
       const datas = data.data;
       // console.log(datas);
