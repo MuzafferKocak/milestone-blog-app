@@ -14,7 +14,8 @@ const Dashboard = () => {
     setCurrentPage(page);
   };
   useEffect(() => {
-    getPostData("blogs");
+    getBlogsPage(1, 6);
+    // getPostData("blogs");
   }, []); // eslint-disable-line
   
 
