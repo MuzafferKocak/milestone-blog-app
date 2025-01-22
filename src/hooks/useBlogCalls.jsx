@@ -19,7 +19,7 @@ const useBlogCalls = () => {
       const { data } = await axiosPublic.get(`/${path}/`, {
         withCredentials: true,
       });
-      console.log("Fetched Data:", data.data);
+      // console.log("Fetched Data:", data.data);
       const datas = data.data;
       // console.log(datas);
       dispatch(getSuccess({ data: datas, path }));
