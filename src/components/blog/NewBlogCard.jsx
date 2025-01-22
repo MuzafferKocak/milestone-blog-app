@@ -58,8 +58,8 @@ const NewBlogCard = () => {
       userId: user?._id,
     }
     getNewBlogCreate("blogs", newBlogData);
-    // getPostData("blogs");
     getBlogsPage(1, 6)
+    // getPostData("blogs");
 
   };
 
