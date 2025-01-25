@@ -30,13 +30,11 @@ const DeleteModal = ({ openDelete, handleCloseDelete, id }) => {
 
   const deleteBLog = async () => {
     try {
-      console.log("Silme işlemi başladi.");
+      
       await deleteBlog("blogs", id);
-      console.log("Silme işlemi tamamlandi.");
       handleCloseDelete()
-      console.log("Modal kapatildi.");
       navigate("/");
-      console.log("Ana sayfaya yönlendirildi.");
+      
     } catch (error) {
       console.error("Error deleting blog:", error);
     }
