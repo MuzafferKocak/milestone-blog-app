@@ -73,13 +73,13 @@ const BlogCard = ({
       <CardMedia
         component="img"
         height="194"
-        sx={{ objectFit: "contain" }}
+        sx={{ objectFit: "contain",width: '100%',height: '200px', maxHeight: '200px' }}
         image={image}
         alt="Image"
       />
       <CardContent>
         <Typography variant="h6" color="#FF6969" >
-        {title.length > 25 ? `${title.substring(0, 25)}...` : title}
+        {title.length > 25 ? `${title.substring(0, 30)}...` : title}
         </Typography>
         <Typography
           sx={{ height: "4rem" }}
