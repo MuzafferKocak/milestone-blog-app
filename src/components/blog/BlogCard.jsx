@@ -78,10 +78,8 @@ const BlogCard = ({
         alt="Image"
       />
       <CardContent>
-        <Typography variant="h6" color="#FF6969" dangerouslySetInnerHTML={{
-            __html: content.substring(0, 25) + "...",
-          }}>
-          {title}
+        <Typography variant="h6" color="#FF6969" >
+        {title.length > 25 ? `${title.substring(0, 25)}...` : title}
         </Typography>
         <Typography
           sx={{ height: "4rem" }}
