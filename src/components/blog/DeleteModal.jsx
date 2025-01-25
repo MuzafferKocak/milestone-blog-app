@@ -32,6 +32,7 @@ const DeleteModal = ({ openDelete, handleCloseDelete, id }) => {
     try {
       await deleteBlog("blogs", id);
       await getBlogsPage(1, 6);
+      handleCloseDelete()
       navigate("/");
     } catch (error) {
       console.error("Error deleting blog:", error);
