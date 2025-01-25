@@ -65,7 +65,7 @@ const BlogCard = ({
   return (
     <Card sx={{ maxWidth: 345, height: "455px" }}>
       <CardHeader
-        avatar={<Avatar src={image} aria-label="recipe"></Avatar>}
+        avatar={<Avatar src={user.avatar} aria-label="recipe"></Avatar>}
         action={<IconButton aria-label="settings"></IconButton>}
         title={author}
         subheader={result}
@@ -73,13 +73,13 @@ const BlogCard = ({
       <CardMedia
         component="img"
         height="194"
-        sx={{ objectFit: "contain",width: '100%',height: '200px', maxHeight: '200px' }}
+        sx={{ objectFit: "cover",width: '100%',height: '200px', maxHeight: '200px' }}
         image={image}
         alt="Image"
       />
       <CardContent>
         <Typography variant="h6" color="#FF6969" >
-        {title.length > 25 ? `${title.substring(0, 30)}...` : title}
+        {title.length > 25 ? `${title.substring(0, 27)}...` : title}
         </Typography>
         <Typography
           sx={{ height: "4rem" }}
