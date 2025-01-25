@@ -31,7 +31,7 @@ const DeleteModal = ({ openDelete, handleCloseDelete, id }) => {
   const deleteBLog = () => {
     deleteBlog("blogs", id);
     getBlogsPage(1, 6)
-    // navigate("/");
+    navigate("/");
   };
 
   return (
