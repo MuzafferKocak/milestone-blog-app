@@ -8,7 +8,7 @@ import useBlogCalls from "../../hooks/useBlogCalls";
 import { useNavigate } from "react-router-dom";
 
 const DeleteModal = ({ openDelete, handleCloseDelete, id }) => {
-  const { deleteBlog,getBlogsPage } = useBlogCalls();
+  const { deleteBlog, getBlogsPage } = useBlogCalls();
   const navigate = useNavigate();
 
   const style = {
@@ -28,9 +28,16 @@ const DeleteModal = ({ openDelete, handleCloseDelete, id }) => {
     p: 4,
   };
 
-  const deleteBLog = () => {
+  const deleteBLog = async () => {
+    try {
+      await deleteBlog("blogs", id);
+      await getBlogsPage(1, 6);
+      navigate("/");
+    } catch (error) {
+      console.error("Error deleting blog:", error);
+    }
     deleteBlog("blogs", id);
-    getBlogsPage(1, 6)
+    getBlogsPage(1, 6);
     navigate("/");
   };
 
