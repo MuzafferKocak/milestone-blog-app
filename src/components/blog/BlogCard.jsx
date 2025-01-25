@@ -78,7 +78,9 @@ const BlogCard = ({
         alt="Image"
       />
       <CardContent>
-        <Typography variant="h6" color="#FF6969">
+        <Typography variant="h6" color="#FF6969" dangerouslySetInnerHTML={{
+            __html: content.substring(0, 25) + "...",
+          }}>
           {title}
         </Typography>
         <Typography
