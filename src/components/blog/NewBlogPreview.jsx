@@ -1,63 +1,68 @@
 import Card from "@mui/material/Card";
-import CardHeader from "@mui/material/CardHeader";
 import CardMedia from "@mui/material/CardMedia";
 import CardContent from "@mui/material/CardContent";
-import Avatar from "@mui/material/Avatar";
 import Typography from "@mui/material/Typography";
 import { Box } from "@mui/material";
 import { useSelector } from "react-redux";
+import CategoryChip from "./CategoryChip";
 
-const NewBlogPreview = ({ content, title, image }) => {
+const NewBlogPreview = ({ content, title, image, category }) => {
   const userInfo = useSelector((state) => state.auth.user);
 
+  const date = new Date().toLocaleDateString("en-GB", {
+    day: "numeric",
+    month: "short",
+    year: "numeric",
+  });
+
   return (
-    <Box sx={{
-      display: "flex",
-          justifyContent: "center",
-          alignItems: "center",
-          flexDirection: "column",
-          width: "100%"
-    }}>
-      <Card sx={{
-      display: "flex",
-          justifyContent: "center",
-          alignItems: "center",
-          flexDirection: "column",
-          width: "100%"
-    }}>
-        <CardHeader
-          avatar={<Avatar src={userInfo?.image} aria-label="recipe"></Avatar>}
-          title={userInfo?.username}
-          subheader={new Date().toLocaleDateString()}
-        />
-        <CardMedia
-          component="img"
-          height="194"
-          sx={{ objectFit: "contain" }}
-          src={image}
-          alt="image"
-        />
-        <Box sx={{ marginLeft: "1rem", marginTop: "1.5rem" }}>
-          <Typography variant="h6" color="#FF6969">
-            {content ? content : "Blog Title"}
+    <Box sx={{ position: { md: "sticky" }, top: { md: 88 } }}>
+      <Typography
+        variant="overline"
+        color="text.secondary"
+        sx={{ display: "block", mb: 1, letterSpacing: 1 }}
+      >
+        Preview
+      </Typography>
+      <Card>
+        {image ? (
+          <CardMedia
+            component="img"
+            src={image}
+            alt="preview"
+            sx={{ height: 180, objectFit: "cover" }}
+          />
+        ) : (
+          <Box sx={{ height: 180, bgcolor: "divider" }} />
+        )}
+        <CardContent sx={{ display: "flex", flexDirection: "column", gap: 1 }}>
+          <Box sx={{ display: "flex", alignItems: "center", gap: 1, flexWrap: "wrap" }}>
+            <CategoryChip name={category} />
+            <Typography variant="caption" color="text.secondary">
+              {userInfo?.username ? `${userInfo.username} · ${date}` : date}
+            </Typography>
+          </Box>
+          <Typography variant="h6" component="h2" sx={{ lineHeight: 1.3, overflowWrap: "anywhere" }}>
+            {title || "Your post title"}
           </Typography>
-        </Box>
-        <CardContent sx={{ width: "100%", height: "100%", overflow: "auto" }}>
           <Typography
-            sx={{
-              height: "4rem",
-              overflowWrap: "break-word",
-              whiteSpace: "pre-line",
-              textOverflow: "ellipsis",
-            }}
             variant="body2"
             color="text.secondary"
+            sx={{
+              overflowWrap: "anywhere",
+              whiteSpace: "pre-line",
+              display: "-webkit-box",
+              WebkitLineClamp: 6,
+              WebkitBoxOrient: "vertical",
+              overflow: "hidden",
+            }}
           >
-            {title ? title : "Write your blog post here"}
+            {content || "Start writing and your text will appear here."}
           </Typography>
         </CardContent>
       </Card>
     </Box>
   );
 };
+
 export default NewBlogPreview;
