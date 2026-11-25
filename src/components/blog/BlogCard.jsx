@@ -100,7 +100,7 @@ const BlogCard = ({
         </Typography>
       </CardContent>
 
-      <CardActions sx={{ px: 2, pb: 2, pt: 0, color: "text.secondary" }}>
+      <CardActions disableSpacing sx={{ px: 2, pb: 2, pt: 0, color: "text.secondary" }}>
         <IconButton
           size="small"
           aria-label="like"

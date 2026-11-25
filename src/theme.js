@@ -5,6 +5,7 @@ import { createTheme } from "@mui/material/styles";
 const colors = {
   dark: {
     primary: "#5b8def",
+    onPrimary: "#0f141a",
     background: "#0f141a",
     paper: "#161d26",
     border: "#232c37",
@@ -13,6 +14,7 @@ const colors = {
   },
   light: {
     primary: "#3567d6",
+    onPrimary: "#ffffff",
     background: "#f6f7f9",
     paper: "#ffffff",
     border: "#e3e6ea",
@@ -27,7 +29,8 @@ export const getTheme = (mode) => {
   return createTheme({
     palette: {
       mode,
-      primary: { main: c.primary },
+      //* Dunkler Text auf dem hellen Blau im Dunkel-Modus = besserer Kontrast
+      primary: { main: c.primary, contrastText: c.onPrimary },
       background: { default: c.background, paper: c.paper },
       divider: c.border,
       text: { primary: c.text, secondary: c.textSecondary },
