@@ -1,94 +1,50 @@
-import Backdrop from "@mui/material/Backdrop";
-import Box from "@mui/material/Box";
-import Modal from "@mui/material/Modal";
-import Fade from "@mui/material/Fade";
+import Button from "@mui/material/Button";
+import Dialog from "@mui/material/Dialog";
+import DialogActions from "@mui/material/DialogActions";
+import DialogContent from "@mui/material/DialogContent";
+import DialogTitle from "@mui/material/DialogTitle";
 import Typography from "@mui/material/Typography";
-import { Button } from "@mui/material";
 import useBlogCalls from "../../hooks/useBlogCalls";
 import { useNavigate } from "react-router-dom";
 
 const DeleteModal = ({ openDelete, handleCloseDelete, id }) => {
-  const { deleteBlog, getBlogsPage } = useBlogCalls();
+  const { deleteBlog } = useBlogCalls();
   const navigate = useNavigate();
-
-  const style = {
-    position: "absolute",
-    display: "flex",
-    justifyContent: "center",
-    alignItems: "center",
-    flexDirection: "column",
-    textAlign: "center",
-    top: "50%",
-    left: "50%",
-    transform: "translate(-50%, -50%)",
-    width: "auto",
-    bgcolor: "#e1e5e1",
-    border: "2px solid #000",
-    boxShadow: 24,
-    p: 4,
-  };
 
   const deleteBLog = async () => {
     try {
-      
       await deleteBlog("blogs", id);
-      handleCloseDelete()
+      handleCloseDelete();
       navigate("/");
-      
     } catch (error) {
       console.error("Error deleting blog:", error);
     }
-    
   };
 
   return (
-    <div>
-      <Modal
-        aria-labelledby="transition-modal-title"
-        aria-describedby="transition-modal-description"
-        open={openDelete}
-        onClose={handleCloseDelete}
-        closeAfterTransition
-        slots={{ backdrop: Backdrop }}
-        slotProps={{
-          backdrop: {
-            timeout: 500,
-          },
-        }}
-      >
-        <Fade in={openDelete}>
-          <Box sx={style}>
-            <Typography variant="h6" component="h2" sx={{ mb: 2 }}>
-              Are you sure you want to delete it?
-            </Typography>
-            <Box>
-              <Button
-                sx={{
-                  color: "green",
-                  backgroundColor: "#74786b",
-                  margin: "2rem",
-                }}
-                variant="outlined"
-                onClick={handleCloseDelete}
-              >
-                Cancel
-              </Button>
-              <Button
-                sx={{
-                  color: "red",
-                  backgroundColor: "#74786b",
-                  margin: "2rem",
-                }}
-                variant="outlined"
-                onClick={deleteBLog}
-              >
-                Delete
-              </Button>
-            </Box>
-          </Box>
-        </Fade>
-      </Modal>
-    </div>
+    <Dialog
+      open={openDelete}
+      onClose={handleCloseDelete}
+      fullWidth
+      maxWidth="xs"
+      PaperProps={{ sx: { border: 1, borderColor: "divider" } }}
+      aria-labelledby="delete-dialog-title"
+    >
+      <DialogTitle id="delete-dialog-title">Delete this post?</DialogTitle>
+      <DialogContent>
+        <Typography color="text.secondary">
+          This action cannot be undone.
+        </Typography>
+      </DialogContent>
+      <DialogActions sx={{ px: 3, pb: 2, gap: 1 }}>
+        <Button variant="outlined" onClick={handleCloseDelete}>
+          Cancel
+        </Button>
+        <Button variant="contained" color="error" onClick={deleteBLog}>
+          Delete
+        </Button>
+      </DialogActions>
+    </Dialog>
   );
 };
 
