@@ -2,7 +2,8 @@ import TextField from "@mui/material/TextField";
 import FormControlLabel from "@mui/material/FormControlLabel";
 import Checkbox from "@mui/material/Checkbox";
 import Box from "@mui/material/Box";
-import Grid from "@mui/material/Grid";
+import Typography from "@mui/material/Typography";
+import MuiLink from "@mui/material/Link";
 import { Link } from "react-router-dom";
 import { Form } from "formik";
 import { object, string } from "yup";
@@ -34,7 +35,7 @@ const LoginForm = ({
   const [showPassword, setShowPassword] = useState(false);
 
   return (
-    <Form sx={{ color: "red" }}>
+    <Form>
       <Box sx={{ mt: 1 }}>
         <TextField
           margin="normal"
@@ -80,23 +81,25 @@ const LoginForm = ({
         <FormControlLabel
           control={<Checkbox value="remember" color="primary" />}
           label="Remember me"
+          sx={{ color: "text.secondary" }}
         />
         <LoadingButton
           variant="contained"
           type="submit"
+          size="large"
           disabled={isSubmitting}
           fullWidth
           loading={false}
-          sx={{ mt: 3, mb: 2 }}
+          sx={{ mt: 2, mb: 2 }}
         >
-          Sign In
+          Sign in
         </LoadingButton>
-        <Grid container>
-          <Grid item>
-            Don't have an account?
-            <Link to="/register">Sign Up</Link>
-          </Grid>
-        </Grid>
+        <Typography variant="body2" color="text.secondary" align="center">
+          Don't have an account?{" "}
+          <MuiLink component={Link} to="/register" underline="hover" fontWeight={600}>
+            Sign up
+          </MuiLink>
+        </Typography>
       </Box>
     </Form>
   );
