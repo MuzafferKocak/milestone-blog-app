@@ -2,7 +2,6 @@ import AppBar from "@mui/material/AppBar";
 import Box from "@mui/material/Box";
 import Toolbar from "@mui/material/Toolbar";
 import IconButton from "@mui/material/IconButton";
-import Typography from "@mui/material/Typography";
 import Menu from "@mui/material/Menu";
 import MenuIcon from "@mui/icons-material/Menu";
 import Container from "@mui/material/Container";
@@ -10,157 +9,154 @@ import Avatar from "@mui/material/Avatar";
 import Button from "@mui/material/Button";
 import Tooltip from "@mui/material/Tooltip";
 import MenuItem from "@mui/material/MenuItem";
-import WbSunnyIcon from "@mui/icons-material/WbSunny";
-import { useNavigate } from "react-router-dom";
+import AddIcon from "@mui/icons-material/Add";
+import LightModeOutlinedIcon from "@mui/icons-material/LightModeOutlined";
+import DarkModeOutlinedIcon from "@mui/icons-material/DarkModeOutlined";
+import { useLocation, useNavigate } from "react-router-dom";
 import { useSelector } from "react-redux";
 import { useState } from "react";
-import Logo from "../assets/logo1.png"
+import Logo from "../assets/logo1.png";
 import useAuthCalls from "../hooks/useAuthCalls";
+
+const navLinks = [
+  { label: "Home", path: "/" },
+  { label: "About", path: "/about" },
+];
 
 const NavBar = ({ setPrefersDarkMode, prefersDarkMode }) => {
   const [anchorElNav, setAnchorElNav] = useState(null);
   const [anchorElUser, setAnchorElUser] = useState(null);
 
-  const {user} = useSelector((state) => state.auth);
-  const { logout } = useAuthCalls()
+  const { user } = useSelector((state) => state.auth);
+  const { logout } = useAuthCalls();
+  const navigate = useNavigate();
+  const { pathname } = useLocation();
 
-  const handleOpenNavMenu = (event) => {
-    setAnchorElNav(event.currentTarget);
-  };
-  const handleOpenUserMenu = (event) => {
-    setAnchorElUser(event.currentTarget);
-  };
-
-  const handleCloseNavMenu = () => {
-    setAnchorElNav(null);
-  };
-
-  const handleCloseUserMenu = () => {
-    setAnchorElUser(null);
-  };
   const handleThemeChange = () => {
     setPrefersDarkMode(!prefersDarkMode);
   };
-  const navigate = useNavigate();
-  
+
+  //* Menüpunkt anklicken: Menü schließen und Seite wechseln
+  const goTo = (path) => {
+    setAnchorElNav(null);
+    setAnchorElUser(null);
+    navigate(path);
+  };
+
+  const handleLogout = () => {
+    setAnchorElUser(null);
+    navigate("/");
+    logout();
+  };
 
   return (
-    <AppBar
-      sx={{ backgroundColor: !prefersDarkMode ? "#C7C8CC" : "" }}
-      position="static"
-    >
-      <Container maxWidth="xl">
-        <Toolbar disableGutters>
-          <img
-            style={{ width: "3.5rem", height: "3.5rem", marginRight: "2rem", borderRadius: "50px" }}
+    <AppBar position="sticky">
+      <Container maxWidth="lg">
+        <Toolbar disableGutters sx={{ gap: 1, minHeight: { xs: 64 } }}>
+          {/* Logo */}
+          <Box
+            component="img"
             src={Logo}
             alt="logo"
+            onClick={() => navigate("/")}
+            sx={{ width: 36, height: 36, mr: 2, cursor: "pointer" }}
           />
+
+          {/* Handy: Menü-Symbol */}
           <Box sx={{ flexGrow: 1, display: { xs: "flex", md: "none" } }}>
             <IconButton
               size="large"
-              aria-label="account of current user"
-              aria-controls="menu-appbar"
+              aria-label="open navigation"
+              aria-controls="menu-nav"
               aria-haspopup="true"
-              onClick={handleOpenNavMenu}
+              onClick={(e) => setAnchorElNav(e.currentTarget)}
               color="inherit"
             >
               <MenuIcon />
             </IconButton>
             <Menu
-              id="menu-appbar"
+              id="menu-nav"
               anchorEl={anchorElNav}
-              anchorOrigin={{
-                vertical: "bottom",
-                horizontal: "left",
-              }}
+              anchorOrigin={{ vertical: "bottom", horizontal: "left" }}
               keepMounted
-              transformOrigin={{
-                vertical: "top",
-                horizontal: "left",
-              }}
+              transformOrigin={{ vertical: "top", horizontal: "left" }}
               open={Boolean(anchorElNav)}
-              onClose={handleCloseNavMenu}
-              sx={{
-                display: { xs: "block", md: "none" },
-              }}
+              onClose={() => setAnchorElNav(null)}
+              sx={{ display: { xs: "block", md: "none" } }}
             >
-              <MenuItem onClick={handleCloseNavMenu}>
-                <Button onClick={() => navigate("/")}>Dashboard</Button>
-              </MenuItem>
-              <MenuItem onClick={handleCloseNavMenu}>
-                <Button onClick={() => navigate("/newblog")}>New Blog</Button>
-              </MenuItem>
-              <MenuItem onClick={handleCloseNavMenu}>
-                <Button onClick={() => navigate("/about")}>About</Button>
-              </MenuItem>
+              {navLinks.map((link) => (
+                <MenuItem key={link.path} onClick={() => goTo(link.path)}>
+                  {link.label}
+                </MenuItem>
+              ))}
+              <MenuItem onClick={() => goTo("/newblog")}>+ New Post</MenuItem>
             </Menu>
           </Box>
-          <Box sx={{ flexGrow: 1, display: { xs: "none", md: "flex" } }}>
-            <Button onClick={() => navigate("/")}>Dashboard</Button>
-            <Button onClick={() => navigate("/newblog")}>New Blog</Button>
-            <Button onClick={() => navigate("/about")}>About</Button>
+
+          {/* Desktop: Links */}
+          <Box sx={{ flexGrow: 1, display: { xs: "none", md: "flex" }, gap: 0.5 }}>
+            {navLinks.map((link) => (
+              <Button
+                key={link.path}
+                onClick={() => navigate(link.path)}
+                sx={{
+                  color: pathname === link.path ? "text.primary" : "text.secondary",
+                  "&:hover": { color: "text.primary" },
+                }}
+              >
+                {link.label}
+              </Button>
+            ))}
           </Box>
-          <Box sx={{ marginRight: "1.5rem" }}>
-            <Tooltip
-              title="Theme"
-              variant="contained"
-              sx={{ width: "20px", height: "20px" }}
+
+          {/* Desktop: Neuer Beitrag */}
+          <Button
+            variant="contained"
+            startIcon={<AddIcon />}
+            onClick={() => navigate("/newblog")}
+            sx={{ display: { xs: "none", md: "inline-flex" }, mr: 1 }}
+          >
+            New Post
+          </Button>
+
+          {/* Hell/Dunkel-Schalter */}
+          <Tooltip title={prefersDarkMode ? "Light mode" : "Dark mode"}>
+            <IconButton
               onClick={handleThemeChange}
+              aria-label="toggle theme"
+              sx={{ color: "text.secondary" }}
             >
-              <IconButton>
-                <WbSunnyIcon sx={{ width: "1.2rem" }} />
-              </IconButton>
-            </Tooltip>
-          </Box>
-          <Box sx={{ flexGrow: 0 }}>
-            <Tooltip title="Open settings">
-              <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
-                {user && user.image ? (
-                  <Avatar src={user.image} alt="avatar" />
-                ) : (
-                  <Avatar></Avatar>
-                )}
+              {prefersDarkMode ? <LightModeOutlinedIcon /> : <DarkModeOutlinedIcon />}
+            </IconButton>
+          </Tooltip>
+
+          {/* Avatar mit Menü */}
+          <Box sx={{ flexGrow: 0, ml: 1 }}>
+            <Tooltip title="Account">
+              <IconButton onClick={(e) => setAnchorElUser(e.currentTarget)} sx={{ p: 0 }}>
+                <Avatar
+                  src={user?.image || undefined}
+                  alt="avatar"
+                  sx={{ width: 34, height: 34 }}
+                />
               </IconButton>
             </Tooltip>
             <Menu
               sx={{ mt: "45px" }}
-              id="menu-appbar"
+              id="menu-user"
               anchorEl={anchorElUser}
-              anchorOrigin={{
-                vertical: "top",
-                horizontal: "right",
-              }}
+              anchorOrigin={{ vertical: "top", horizontal: "right" }}
               keepMounted
-              transformOrigin={{
-                vertical: "top",
-                horizontal: "right",
-              }}
+              transformOrigin={{ vertical: "top", horizontal: "right" }}
               open={Boolean(anchorElUser)}
-              onClose={handleCloseUserMenu}
+              onClose={() => setAnchorElUser(null)}
             >
-              <MenuItem onClick={handleCloseUserMenu}>
-                <Typography onClick={() => navigate("/profile")} textAlign="center">
-                  Profile
-                </Typography>
-              </MenuItem>
-              <MenuItem onClick={handleCloseUserMenu}>
-                <Typography onClick={() => navigate("/")} textAlign="center">
-                  Dashboard
-                </Typography>
-              </MenuItem>
+              <MenuItem onClick={() => goTo("/profile")}>Profile</MenuItem>
+              <MenuItem onClick={() => goTo("/")}>Home</MenuItem>
               {user ? (
-                <MenuItem onClick={ handleCloseUserMenu}>
-                  <Typography onClick={() =>  {navigate("/"); logout()}} textAlign="center">
-                    Logout
-                  </Typography>
-                </MenuItem>
+                <MenuItem onClick={handleLogout}>Logout</MenuItem>
               ) : (
-                <MenuItem onClick={handleCloseUserMenu}>
-                  <Typography onClick={() => navigate("/login")} textAlign="center">
-                    Login
-                  </Typography>
-                </MenuItem>
+                <MenuItem onClick={() => goTo("/login")}>Login</MenuItem>
               )}
             </Menu>
           </Box>

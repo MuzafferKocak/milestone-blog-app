@@ -2,27 +2,23 @@ import { Box, Typography } from "@mui/material";
 
 const currentYear = new Date().getFullYear();
 
-const Footer = ({ prefersDarkMode }) => {
+const Footer = () => {
   return (
     <Box
-      py={3}
+      component="footer"
       sx={{
-        backgroundColor: !prefersDarkMode ? "#C7C8CC" : "#292929",
-        position: "fixed",
-        
-        bottom: 0,
-        width: "100%",
+        py: 3,
+        mt: 6,
+        borderTop: 1,
+        borderColor: "divider",
         textAlign: "center",
       }}
     >
-      <Typography
-        sx={{ color: prefersDarkMode ? "grey" : "black" }}
-        fontSize={"14px"}
-      >
+      <Typography variant="body2" color="text.secondary">
         Copyright © {currentYear} by{" "}
-        <span style={{ color: prefersDarkMode ? "#90caf9" : "#6a88d8" }}>
+        <Box component="span" sx={{ color: "primary.main", fontWeight: 600 }}>
           MeK
-        </span>
+        </Box>
       </Typography>
     </Box>
   );

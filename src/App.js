@@ -9,7 +9,8 @@ import AppRouter from "./router/AppRouter";
 import store, { persistor } from "./app/store";
 import Footer from "./components/Footer";
 import { BrowserRouter as Router } from "react-router-dom";
-import CssBaseline from "@mui/material/CssBaseline"
+import CssBaseline from "@mui/material/CssBaseline";
+import Box from "@mui/material/Box";
 
 function App() {
   const [prefersDarkMode, setPrefersDarkMode] = useState(true);
@@ -24,13 +25,18 @@ function App() {
       <Provider store={store}>
         <PersistGate loading={null} persistor={persistor}>
           <Router>
-          <CssBaseline />
-            <Navbar
-              setPrefersDarkMode={setPrefersDarkMode}
-              prefersDarkMode={prefersDarkMode}
-            />
-            <AppRouter />
-            <Footer prefersDarkMode={prefersDarkMode} />
+            <CssBaseline />
+            {/* Footer steht bei wenig Inhalt trotzdem unten */}
+            <Box sx={{ minHeight: "100vh", display: "flex", flexDirection: "column" }}>
+              <Navbar
+                setPrefersDarkMode={setPrefersDarkMode}
+                prefersDarkMode={prefersDarkMode}
+              />
+              <Box component="main" sx={{ flex: 1 }}>
+                <AppRouter />
+              </Box>
+              <Footer />
+            </Box>
           </Router>
         </PersistGate>
       </Provider>
