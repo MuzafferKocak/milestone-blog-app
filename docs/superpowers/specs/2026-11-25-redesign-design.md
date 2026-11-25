@@ -75,5 +75,5 @@ Der Nutzer hat Weg 1 gewählt, weil er sauber ist und ohne neue Bibliotheken aus
 
 ## Sprache (vom Nutzer entschieden)
 
-- **Alle Texte der Oberfläche auf Englisch**, einheitlich. Das gilt auch für die heute deutschen Meldungen (z. B. „Anmeldung Erfolgreich“ → „Login successful“). Die Blog-Inhalte selbst bleiben, wie sie sind.
+- **Alle Texte der Oberfläche bleiben auf Englisch.** Die App ist heute schon komplett englisch, auch die Meldungen. Die Blog-Inhalte selbst bleiben, wie sie sind. (Korrektur: Eine frühere Fassung nannte deutsche Meldungen; die stammten aus der Stock-App.)
 - Navigationsleiste: „Home“, „About“, Knopf „+ New Post“. Startseite: „Latest Posts“ mit kurzem Untertitel. Karte: „Read more“.
