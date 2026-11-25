@@ -1,5 +1,6 @@
 import React, { useState } from "react";
-import { createTheme, ThemeProvider } from "@mui/material/styles";
+import { ThemeProvider } from "@mui/material/styles";
+import { getTheme } from "./theme";
 import { Provider } from "react-redux";
 import { PersistGate } from "redux-persist/integration/react";
 import { ToastContainer } from "react-toastify";
@@ -14,12 +15,7 @@ function App() {
   const [prefersDarkMode, setPrefersDarkMode] = useState(true);
 
   const theme = React.useMemo(
-    () =>
-      createTheme({
-        palette: {
-          mode: prefersDarkMode ? "dark" : "light",
-        },
-      }),
+    () => getTheme(prefersDarkMode ? "dark" : "light"),
     [prefersDarkMode]
   );
 
