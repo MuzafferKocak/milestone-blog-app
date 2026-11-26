@@ -160,6 +160,8 @@ const BlogDetail = () => {
           handleOpenUpdate={handleOpenUpdate}
           openUpdate={openUpdate}
           handleCloseUpdate={handleCloseUpdate}
+          blog={blogsDetail}
+          id={id}
         />
       )}
       {openDelete && (

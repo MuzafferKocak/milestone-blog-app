@@ -117,6 +117,26 @@ const useBlogCalls = () => {
     }
   };
 
+  //* Blog ändern: gibt true zurück, wenn es geklappt hat
+  const updateBlog = async (id, updatedInfo) => {
+    dispatch(fetchStart());
+    try {
+      await axiosToken.put(`/blogs/${id}/`, updatedInfo);
+      await getDetailRead("blogs", id);
+      toastSuccessNotify("Blog successfully updated 👌");
+      return true;
+    } catch (error) {
+      const message = error.response?.data;
+      toastErrorNotify(
+        typeof message === "string"
+          ? message
+          : "An error occurred while updating the blog 🤨"
+      );
+      dispatch(fetchFail());
+      return false;
+    }
+  };
+
   const getBlogsPage = async (page, limit) => {
     // console.log(page);
     dispatch(fetchStart());
@@ -138,6 +158,7 @@ const useBlogCalls = () => {
     getCreateComment,
     getBlogsPage,
     deleteBlog,
+    updateBlog,
   };
 };
 
