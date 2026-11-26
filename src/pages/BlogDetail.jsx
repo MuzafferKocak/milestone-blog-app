@@ -94,8 +94,10 @@ const BlogDetail = () => {
     }
   };
 
-  //* Bedingung für Bearbeiten/Löschen unverändert aus der alten Version übernommen
-  const canEdit = blogsDetail?._id?.user === user?.user;
+  //* Bearbeiten/Löschen nur für den Autor oder einen Admin (gleiche Regel wie im Backend)
+  const authorId = blogsDetail?.userId?._id || blogsDetail?.userId;
+  const canEdit =
+    Boolean(user?._id) && (user?.isAdmin || authorId === user?._id);
 
   return (
     <Container maxWidth={false} sx={{ maxWidth: 760, py: { xs: 4, md: 6 } }}>
