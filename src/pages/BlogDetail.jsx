@@ -1,26 +1,27 @@
 import {
   Avatar,
   Box,
-  CardActions,
-  CardHeader,
+  Button,
+  Container,
+  Divider,
   IconButton,
-  Paper,
   Typography,
 } from "@mui/material";
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useParams } from "react-router-dom";
 import useBlogCalls from "../hooks/useBlogCalls";
-import RemoveRedEyeIcon from "@mui/icons-material/RemoveRedEye";
+import VisibilityOutlinedIcon from "@mui/icons-material/VisibilityOutlined";
 import FavoriteIcon from "@mui/icons-material/Favorite";
-import ForumIcon from "@mui/icons-material/Forum";
-import MoreVertIcon from "@mui/icons-material/MoreVert";
-import Menu from "@mui/material/Menu";
-import MenuItem from "@mui/material/MenuItem";
+import FavoriteBorderIcon from "@mui/icons-material/FavoriteBorder";
+import ChatBubbleOutlineIcon from "@mui/icons-material/ChatBubbleOutline";
+import EditOutlinedIcon from "@mui/icons-material/EditOutlined";
+import DeleteOutlineIcon from "@mui/icons-material/DeleteOutline";
 import UpdateModal from "../components/blog/UpdateModal";
 import DeleteModal from "../components/blog/DeleteModal";
 import { setShowComments } from "../features/blogSlice";
 import CommentForm from "../components/blog/CommentForm";
+import CategoryChip from "../components/blog/CategoryChip";
 
 const BlogDetail = () => {
   const { id } = useParams();
@@ -39,20 +40,17 @@ const BlogDetail = () => {
   const formatDate = (dateString) => {
     const date = new Date(dateString);
     if (isNaN(date.getTime())) {
-      return "Invalid Date";
+      return "";
     }
-    const options = {
+    return date.toLocaleString("en-GB", {
       year: "numeric",
-      month: "long",
+      month: "short",
       day: "numeric",
-      hour: "numeric",
-      minute: "numeric",
-      second: "numeric",
-      hour12: false,
-      timeZone: "UTC",
-    };
-    return date.toLocaleString("de-DE", options);
+      hour: "2-digit",
+      minute: "2-digit",
+    });
   };
+
   useEffect(() => {
     getDetailRead("blogs", id);
     getPostData("blogs");
@@ -69,19 +67,8 @@ const BlogDetail = () => {
     if (user) {
       await getLikeCreate(id, user.username).then(() => {
         getDetailRead("blogs", id);
-        // getPostData("blogs");
       });
     }
-  };
-
-  const [anchorEl, setAnchorEl] = useState(null);
-
-  const handleMenuClick = (event) => {
-    setAnchorEl(event.currentTarget);
-  };
-
-  const handleMenuClose = () => {
-    setAnchorEl(null);
   };
 
   const handleOpenUpdate = () => setOpenUpdate(true);
@@ -96,7 +83,6 @@ const BlogDetail = () => {
     const commentContent = comment.content;
     if (!userId) {
       console.error("User ID is undefined. Please log in.");
-
       return;
     }
 
@@ -108,140 +94,146 @@ const BlogDetail = () => {
     }
   };
 
+  //* Bearbeiten/Löschen nur für den Autor oder einen Admin (gleiche Regel wie im Backend)
+  const authorId = blogsDetail?.userId?._id || blogsDetail?.userId;
+  const canEdit =
+    Boolean(user?._id) && (user?.isAdmin || authorId === user?._id);
+
   return (
-    <Box
-      sx={{
-        maxWidth: "750px",
-        margin: "0 auto",
-        padding: "2rem",
-        marginBottom: "5rem",
-      }}
-    >
-      <Paper elevation={4} sx={{ padding: "1rem 2rem" }}>
-        <CardHeader
-          sx={{
-            display: "flex",
-            justifyContent: "space-between",
-            alignItems: "center",
-            marginBottom: "1rem",
-            top: 0,
-            color: "#FF6969",
-          }}
-          title={<Typography variant="h4">{blogsDetail?.title}</Typography>}
-          action={
-            blogsDetail?._id?.user === user?.user && (
-              <>
-                <IconButton onClick={handleMenuClick} aria-label="settings">
-                  <MoreVertIcon />
-                </IconButton>
-                <Menu
-                  anchorEl={anchorEl}
-                  open={Boolean(anchorEl)}
-                  onClose={handleMenuClose}
-                >
-                  <MenuItem
-                    onClick={() => {
-                      handleMenuClose();
-                      handleOpenUpdate();
-                    }}
-                  >
-                    Update Blog
-                  </MenuItem>
-                  <MenuItem
-                    onClick={() => {
-                      handleMenuClose();
-                      handleOpenDelete();
-                    }}
-                  >
-                    Delete Blog
-                  </MenuItem>
-                </Menu>
-                {openUpdate && (
-                  <UpdateModal
-                    handleOpenUpdate={handleOpenUpdate}
-                    openUpdate={openUpdate}
-                    handleCloseUpdate={handleCloseUpdate}
-                  />
-                )}
-                {openDelete && (
-                  <DeleteModal
-                    handleOpenDelete={handleOpenDelete}
-                    openDelete={openDelete}
-                    handleCloseDelete={handleCloseDelete}
-                    id={id}
-                  />
-                )}
-              </>
-            )
-          }
-        />
+    <Container maxWidth={false} sx={{ maxWidth: 760, py: { xs: 4, md: 6 } }}>
+      {/* Bild */}
+      {blogsDetail?.image && (
         <Box
-          sx={{ display: "flex", alignItems: "center", marginBottom: "1rem" }}
-        >
-          <Avatar />
-          <Box sx={{ marginLeft: "1rem" }}>
-            <Typography variant="subtitle1">
-              {blogsDetail?.userId?.user}
-            </Typography>
-            <Typography variant="subtitle2">
-              {formatDate(blogsDetail?.createdAt)}
-            </Typography>
-          </Box>
-        </Box>
-        <Box sx={{ display: "flex", justifyContent: "center" }}>
-          <img
-            style={{ maxWidth: "80%", height: "auto", marginBottom: "1rem" }}
-            src={blogsDetail?.image}
-            alt="blog_image"
-          />
-        </Box>
-        <div dangerouslySetInnerHTML={{ __html: blogsDetail?.content }}></div>
+          component="img"
+          src={blogsDetail.image}
+          alt={blogsDetail?.title}
+          sx={{
+            width: "100%",
+            maxHeight: 420,
+            objectFit: "cover",
+            borderRadius: 3,
+            border: 1,
+            borderColor: "divider",
+            mb: 3,
+          }}
+        />
+      )}
 
-        <Box sx={{ display: "flex", justifyContent: "space-between" }}>
-          <Box>
-            <CardActions disableSpacing>
-              <IconButton
-                onClick={handleLikeButton}
-                aria-label="add to favorites"
-              >
-                <FavoriteIcon
-                  sx={{
-                    color: userLike ? "red" : "#C7C8CC",
-                  }}
-                />
-              </IconButton>
-              <Typography>{countOfLikes}</Typography>
+      {/* Kategorie, Titel, Autor */}
+      <CategoryChip name={blogsDetail?.categoryId?.name} />
+      <Typography variant="h3" component="h1" sx={{ mt: 1.5, mb: 2, fontSize: { xs: "2rem", md: "2.6rem" } }}>
+        {blogsDetail?.title}
+      </Typography>
 
-              <IconButton
-                aria-label="comment"
-                onClick={() => dispatch(setShowComments(!showComments))}
-              >
-                <ForumIcon sx={{ color: "#40A578" }} />
-              </IconButton>
-              <Typography>{blogsDetail?.comments?.length}</Typography>
-            </CardActions>
-          </Box>
-          <Box>
-            <CardActions disableSpacing>
-              <IconButton aria-label="visibility">
-                <RemoveRedEyeIcon sx={{ color: "#FD9B63" }} />
-              </IconButton>
-              <Typography>{blogsDetail?.countOfVisitors}</Typography>
-            </CardActions>
-          </Box>
+      <Box sx={{ display: "flex", alignItems: "center", gap: 1.5, flexWrap: "wrap" }}>
+        <Avatar sx={{ width: 36, height: 36 }} />
+        <Box sx={{ flexGrow: 1 }}>
+          <Typography variant="subtitle2">{blogsDetail?.userId?.username}</Typography>
+          <Typography variant="caption" color="text.secondary">
+            {formatDate(blogsDetail?.createdAt)}
+          </Typography>
         </Box>
 
-        {showComments && (
-          <CommentForm
-            comments={blogsDetail?.comments}
-            id={id}
-            sendComment={sendComment}
-            formatDate={formatDate}
-            user={user}
-          />
+        {canEdit && (
+          <Box sx={{ display: "flex", gap: 1 }}>
+            <Button
+              variant="outlined"
+              size="small"
+              startIcon={<EditOutlinedIcon />}
+              onClick={handleOpenUpdate}
+            >
+              Edit
+            </Button>
+            <Button
+              variant="outlined"
+              color="error"
+              size="small"
+              startIcon={<DeleteOutlineIcon />}
+              onClick={handleOpenDelete}
+            >
+              Delete
+            </Button>
+          </Box>
         )}
-      </Paper>
-    </Box>
+      </Box>
+
+      {openUpdate && (
+        <UpdateModal
+          handleOpenUpdate={handleOpenUpdate}
+          openUpdate={openUpdate}
+          handleCloseUpdate={handleCloseUpdate}
+          blog={blogsDetail}
+          id={id}
+        />
+      )}
+      {openDelete && (
+        <DeleteModal
+          handleOpenDelete={handleOpenDelete}
+          openDelete={openDelete}
+          handleCloseDelete={handleCloseDelete}
+          id={id}
+        />
+      )}
+
+      <Divider sx={{ my: 3 }} />
+
+      {/* Inhalt */}
+      <Box
+        sx={{
+          lineHeight: 1.7,
+          fontSize: "1.05rem",
+          "& img": { maxWidth: "100%", height: "auto", borderRadius: 2 },
+          "& a": { color: "primary.main" },
+        }}
+        dangerouslySetInnerHTML={{ __html: blogsDetail?.content }}
+      />
+
+      {/* Likes, Kommentare, Aufrufe */}
+      <Box
+        sx={{
+          display: "flex",
+          alignItems: "center",
+          gap: 0.5,
+          mt: 4,
+          py: 1,
+          borderTop: 1,
+          borderBottom: 1,
+          borderColor: "divider",
+          color: "text.secondary",
+        }}
+      >
+        <IconButton
+          onClick={handleLikeButton}
+          aria-label="like"
+          sx={{ color: userLike ? "error.main" : "text.secondary" }}
+        >
+          {userLike ? <FavoriteIcon /> : <FavoriteBorderIcon />}
+        </IconButton>
+        <Typography variant="body2">{countOfLikes}</Typography>
+
+        <IconButton
+          aria-label="comments"
+          onClick={() => dispatch(setShowComments(!showComments))}
+          sx={{ color: showComments ? "primary.main" : "text.secondary", ml: 1 }}
+        >
+          <ChatBubbleOutlineIcon />
+        </IconButton>
+        <Typography variant="body2">{blogsDetail?.comments?.length || 0}</Typography>
+
+        <VisibilityOutlinedIcon sx={{ ml: "auto", mr: 0.5 }} />
+        <Typography variant="body2">{blogsDetail?.countOfVisitors || 0}</Typography>
+      </Box>
+
+      {showComments && (
+        <CommentForm
+          comments={blogsDetail?.comments}
+          id={id}
+          sendComment={sendComment}
+          formatDate={formatDate}
+          user={user}
+        />
+      )}
+    </Container>
   );
 };
 

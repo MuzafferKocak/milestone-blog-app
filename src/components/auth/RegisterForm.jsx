@@ -1,8 +1,7 @@
 import TextField from "@mui/material/TextField";
 import Box from "@mui/material/Box";
-import Grid from "@mui/material/Grid";
-// import { useSelector } from "react-redux";
-import { Button, IconButton, InputAdornment } from "@mui/material";
+import { Button, IconButton, InputAdornment, Typography } from "@mui/material";
+import MuiLink from "@mui/material/Link";
 import { Link } from "react-router-dom";
 import { object, string } from "yup";
 import { Form } from "formik";
@@ -43,7 +42,7 @@ const RegisterForm = ({
       <Box sx={{ mt: 1 }}>
         <TextField
           margin="normal"
-          label="User Name"
+          label="Username"
           name="username"
           id="userName"
           type="text"
@@ -99,7 +98,7 @@ const RegisterForm = ({
         />
         <TextField
           margin="normal"
-          label="password"
+          label="Password"
           name="password"
           id="password"
           type={showPassword ? "text" : "password"}
@@ -129,7 +128,7 @@ const RegisterForm = ({
           margin="normal"
           fullWidth
           id="image"
-          label="Image"
+          label="Profile image URL"
           name="image"
           type="url"
           value={values.image}
@@ -153,19 +152,19 @@ const RegisterForm = ({
         />
         <Button
           type="submit"
-          loading={false}
+          size="large"
           fullWidth
           variant="contained"
           sx={{ mt: 3, mb: 2 }}
         >
-          Sign In
+          Sign up
         </Button>
-        <Grid container>
-          <Grid item>
-            Do you already have an account?
-            <Link to="/login">Sign In</Link>
-          </Grid>
-        </Grid>
+        <Typography variant="body2" color="text.secondary" align="center">
+          Already have an account?{" "}
+          <MuiLink component={Link} to="/login" underline="hover" fontWeight={600}>
+            Sign in
+          </MuiLink>
+        </Typography>
       </Box>
     </Form>
   );
