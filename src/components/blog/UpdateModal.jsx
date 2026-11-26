@@ -98,7 +98,8 @@ const UpdateModal = ({ openUpdate, handleCloseUpdate, blog, id }) => {
           required
           fullWidth
           multiline
-          minRows={8}
+          //* feste Höhe statt mitwachsen: verhindert den ResizeObserver-Fehler im Fenster
+          rows={10}
           label="Content"
           name="content"
           value={info.content}
