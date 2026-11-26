@@ -46,7 +46,12 @@ const useBlogCalls = () => {
 
       toastSuccessNotify("Blog Posted Successfully 👌");
     } catch (error) {
-      toastErrorNotify("Blog post failed please try again 🤨");
+      //* Grund vom Backend anzeigen (z. B. "You must log in")
+      const res = error.response;
+      const reason =
+        res?.data?.message ||
+        (typeof res?.data === "string" ? res.data : "please try again");
+      toastErrorNotify(`Blog post failed: ${reason} 🤨`);
       dispatch(fetchFail());
     }
   };
