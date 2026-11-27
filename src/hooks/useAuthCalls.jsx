@@ -48,8 +48,10 @@ const useAuthCalls = () => {
       toastSuccessNotify("login performed");
       navigate("/");
     } catch (error) {
-      toastErrorNotify("An error occurred while logging in");
-      console.log(error);
+      dispatch(fetchFail());
+      //* Grund vom Backend anzeigen, z. B. "This username is already taken."
+      const reason = error.response?.data?.message || "Please try again.";
+      toastErrorNotify(`Registration failed: ${reason}`);
     }
   };
 
