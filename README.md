@@ -47,4 +47,4 @@ npm start
 Die App läuft danach unter http://localhost:3000.
 Die Adresse des Backends steht in der Datei `.env` (`REACT_APP_BASE_URL`).
 
-![blog-app](blog-app-frontend.gif)
+![Startseite der Blog App](blockapp.png)
